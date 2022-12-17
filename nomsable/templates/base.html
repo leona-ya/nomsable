@@ -1,1 +1,18 @@
-{% block body %}{% endblock %}
+{% load compress %}
+{% load static %}
+<html lang="en">
+        <head>
+            <title>nomsable</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="author" content="Leona Maroni, Jana Marie Hemsing">
+            <meta name="description" content="digital recipe management">
+            <meta name="keywords" content="recipe, food, lunch, dinner, noms, ingredient">
+			{% compress css %}
+			    <link type="text/x-sass" href="{% static 'milligram/milligram.sass' %}" rel="stylesheet">
+			{% endcompress %}
+        </head>
+        <body>
+			{% block body %}{% endblock %}
+        </body>
+</html>
+
