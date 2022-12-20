@@ -7,12 +7,73 @@
             <meta name="author" content="Leona Maroni, Jana Marie Hemsing">
             <meta name="description" content="digital recipe management">
             <meta name="keywords" content="recipe, food, lunch, dinner, noms, ingredient">
-			{% compress css %}
-			    <link type="text/x-sass" href="{% static 'milligram/milligram.sass' %}" rel="stylesheet">
-			{% endcompress %}
+            <link rel="icon" type="image/x-icon" href="{% static 'favicon.png' %}">
+            <link rel="stylesheet" href="{% static 'base.css' %}">
+            <link rel="stylesheet" href="{% static 'normalize.css' %}">
+            {% compress css %}
+                <link type="text/x-sass" href="{% static 'milligram/milligram.sass' %}" rel="stylesheet">
+            {% endcompress %}
         </head>
         <body>
-			{% block body %}{% endblock %}
+            <main class="wrapper">
+
+                <nav class="navigation">
+                    <section class="container">
+
+                        <a class="navigation-title" href="/">
+                            <svg class="img" viewBox="0 0 55 55" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <g>
+                                    <path d="m32 21.8v-2.4q1.65-0.7 3.375-1.05t3.625-0.35q1.3 0 2.55 0.2t2.45 0.5v2.2q-1.2-0.45-2.425-0.675t-2.575-0.225q-1.9 0-3.65 0.475t-3.35 1.325zm0 11v-2.45q1.65-0.7 3.375-1.025t3.625-0.325q1.3 0 2.55 0.2t2.45 0.5v2.2q-1.2-0.45-2.425-0.675t-2.575-0.225q-1.9 0-3.65 0.45t-3.35 1.35zm0-5.5v-2.4q1.65-0.7 3.375-1.05t3.625-0.35q1.3 0 2.55 0.2t2.45 0.5v2.2q-1.2-0.45-2.425-0.675t-2.575-0.225q-1.9 0-3.65 0.475t-3.35 1.325zm-15.6 8.2q2.7 0 5.225 0.625t4.975 1.875v-21.35q-2.25-1.5-4.875-2.325t-5.325-0.825q-1.9 0-3.725 0.475t-3.675 1.175v21.7q1.55-0.7 3.525-1.025t3.875-0.325zm13.2 2.5q2.5-1.25 4.9-1.875t5.1-0.625q1.9 0 3.925 0.3t3.475 0.8v-21.45q-1.7-0.85-3.6-1.25t-3.8-0.4q-2.7 0-5.225 0.825t-4.775 2.325zm-1.5 4.5q-2.55-1.9-5.55-2.925t-6.15-1.025q-1.85 0-3.6 0.45t-3.5 1.1q-1.15 0.55-2.225-0.15t-1.075-2v-23.15q0-0.75 0.35-1.375t1.05-0.975q2.1-1 4.375-1.475t4.625-0.475q3.15 0 6.125 0.85t5.575 2.6q2.55-1.75 5.475-2.6t6.025-0.85q2.35 0 4.6 0.475t4.35 1.475q0.7 0.35 1.075 0.975t0.375 1.375v23.15q0 1.4-1.125 2.125t-2.225 0.025q-1.7-0.7-3.45-1.125t-3.6-0.425q-3.15 0-6.05 1.05t-5.45 2.9z" fill="#0c1627"/>
+                                    <path d="m31.5 22.8v-2.4q1.65-0.7 3.375-1.05t3.625-0.35q1.3 0 2.55 0.2t2.45 0.5v2.2q-1.2-0.45-2.425-0.675t-2.575-0.225q-1.9 0-3.65 0.475t-3.35 1.325zm0 11v-2.45q1.65-0.7 3.375-1.025t3.625-0.325q1.3 0 2.55 0.2t2.45 0.5v2.2q-1.2-0.45-2.425-0.675t-2.575-0.225q-1.9 0-3.65 0.45t-3.35 1.35zm0-5.5v-2.4q1.65-0.7 3.375-1.05t3.625-0.35q1.3 0 2.55 0.2t2.45 0.5v2.2q-1.2-0.45-2.425-0.675t-2.575-0.225q-1.9 0-3.65 0.475t-3.35 1.325zm-15.6 8.2q2.7 0 5.225 0.625t4.975 1.875v-21.35q-2.25-1.5-4.875-2.325t-5.325-0.825q-1.9 0-3.725 0.475t-3.675 1.175v21.7q1.55-0.7 3.525-1.025t3.875-0.325zm13.2 2.5q2.5-1.25 4.9-1.875t5.1-0.625q1.9 0 3.925 0.3t3.475 0.8v-21.45q-1.7-0.85-3.6-1.25t-3.8-0.4q-2.7 0-5.225 0.825t-4.775 2.325zm-1.5 4.5q-2.55-1.9-5.55-2.925t-6.15-1.025q-1.85 0-3.6 0.45t-3.5 1.1q-1.15 0.55-2.225-0.15-1.075-0.7-1.075-2v-23.15q0-0.75 0.35-1.375t1.05-0.975q2.1-1 4.375-1.475t4.625-0.475q3.15 0 6.125 0.85t5.575 2.6q2.55-1.75 5.475-2.6t6.025-0.85q2.35 0 4.6 0.475t4.35 1.475q0.7 0.35 1.075 0.975t0.375 1.375v23.15q0 1.4-1.125 2.125t-2.225 0.025q-1.7-0.7-3.45-1.125t-3.6-0.425q-3.15 0-6.05 1.05t-5.45 2.9z" fill="#2a2c5d"/>
+                                    <path d="m31 23.8v-2.4q1.65-0.7 3.375-1.05t3.625-0.35q1.3 0 2.55 0.2t2.45 0.5v2.2q-1.2-0.45-2.425-0.675t-2.575-0.225q-1.9 0-3.65 0.475t-3.35 1.325zm0 11v-2.45q1.65-0.7 3.375-1.025t3.625-0.325q1.3 0 2.55 0.2t2.45 0.5v2.2q-1.2-0.45-2.425-0.675t-2.575-0.225q-1.9 0-3.65 0.45t-3.35 1.35zm0-5.5v-2.4q1.65-0.7 3.375-1.05t3.625-0.35q1.3 0 2.55 0.2t2.45 0.5v2.2q-1.2-0.45-2.425-0.675t-2.575-0.225q-1.9 0-3.65 0.475t-3.35 1.325zm-15.6 8.2q2.7 0 5.225 0.625t4.975 1.875v-21.35q-2.25-1.5-4.875-2.325t-5.325-0.825q-1.9 0-3.725 0.475t-3.675 1.175v21.7q1.55-0.7 3.525-1.025t3.875-0.325zm13.2 2.5q2.5-1.25 4.9-1.875t5.1-0.625q1.9 0 3.925 0.3t3.475 0.8v-21.45q-1.7-0.85-3.6-1.25t-3.8-0.4q-2.7 0-5.225 0.825t-4.775 2.325zm-1.5 4.5q-2.55-1.9-5.55-2.925t-6.15-1.025q-1.85 0-3.6 0.45t-3.5 1.1q-1.15 0.55-2.225-0.15t-1.075-2v-23.15q0-0.75 0.35-1.375t1.05-0.975q2.1-1 4.375-1.475t4.625-0.475q3.15 0 6.125 0.85t5.575 2.6q2.55-1.75 5.475-2.6t6.025-0.85q2.35 0 4.6 0.475t4.35 1.475q0.7 0.35 1.075 0.975t0.375 1.375v23.15q0 1.4-1.125 2.125t-2.225 0.025q-1.7-0.7-3.45-1.125t-3.6-0.425q-3.15 0-6.05 1.05t-5.45 2.9z" fill="#e73d82"/>
+                                </g>
+                            </svg>
+                            <h1 class="title">nomsable</h1>
+                        </a>
+
+                        <ul class="navigation-list float-right">
+                            <li class="navigation-item">
+                                <a class="navigation-link" href="/about" data-popover>about</a>
+                            </li>
+                            <li class="navigation-item">
+                                <a class="navigation-link" href="/add" data-popover>add</a>
+                            </li>
+                            <li class="navigation-item">
+                                <a class="navigation-link" href="/preferences" data-popover>preferences</a>
+                            </li>
+                        </ul>
+
+                    </section>
+                </nav>
+                
+                {% block body %}{% endblock %}            
+
+                <footer class="footer">
+                <section class="container">
+                    <p>
+                        Designed with ♥ by
+                        <a
+                            target="_blank"
+                            href="https://leona.is"
+                            title="Leona Maroni"
+                            >Leona Maroni</a
+                        > & 
+                        <a
+                            target="_blank"
+                            href="https://janamarie.dev"
+                            title="Jana Marie Hemsing"
+                            >Jana Marie Hemsing</a
+                        >. Licensed under the
+                        <a
+                            target="_blank"
+                            href="https://github.com/leona-ya/nomsable#license"
+                            title="MIT License"
+                            >MIT License</a
+                        >.
+                    </p>
+                </section>
+              </footer>
+          </main>
         </body>
 </html>
 
