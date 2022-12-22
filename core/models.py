@@ -49,6 +49,9 @@ class User(AbstractBaseUser):
 class Ingredient(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return "<Ingredient name=\"{}\">".format(self.name)
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
@@ -80,8 +83,8 @@ class Recipe(models.Model):
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="ingredients")
     ingredient = models.ForeignKey(Ingredient, on_delete=models.PROTECT)
-    unit = models.CharField(max_length=100)
-    quantity = models.FloatField()
+    unit = models.CharField(max_length=100, null=True, blank=True)
+    quantity = models.FloatField(null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
 
 

@@ -62,8 +62,8 @@ class Migration(migrations.Migration):
             name='RecipeIngredient',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('unit', models.CharField(max_length=100)),
-                ('quantity', models.FloatField()),
+                ('unit', models.CharField(max_length=100, blank=True, null=True)),
+                ('quantity', models.FloatField(blank=True, null=True)),
                 ('ingredient', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='core.ingredient')),
                 ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ingredients', to='core.recipe')),
                 ('description', models.CharField(blank=True, max_length=255, null=True)),

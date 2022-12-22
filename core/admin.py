@@ -7,5 +7,12 @@ admin.site.register(User)
 admin.site.register(Ingredient)
 admin.site.register(Tag)
 admin.site.register(Recipe)
-admin.site.register(RecipeIngredient)
+
+
+class RecipeIngredientAdmin(admin.ModelAdmin):
+
+    list_display = ['pk', 'unit', 'quantity', 'ingredient', 'description', 'recipe']
+
+
+admin.site.register(RecipeIngredient, RecipeIngredientAdmin)
 admin.site.register(RecipeInstruction)
