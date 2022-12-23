@@ -27,8 +27,7 @@ def parse_iso8601_duration(iso_duration):
     return iso_duration
 
 
-def parse_ingredient(recipe, raw_ingredient):
-    unit_registry = UnitRegistry()
+def parse_ingredient(unit_registry, recipe, raw_ingredient):
     ingredient_parts = raw_ingredient.split(" ")
     quantity = None
     last_parseable_idx = 0
@@ -97,7 +96,8 @@ class ParserInsertView(View):
             origin_url=requested_url
         )
         recipe.save()
-        ingredients = [parse_ingredient(recipe, raw_ingredient) for raw_ingredient in ld_json["recipeIngredient"]]
+        unit_registry = UnitRegistry()
+        ingredients = [parse_ingredient(unit_registry, recipe, raw_ingredient) for raw_ingredient in ld_json["recipeIngredient"]]
         RecipeIngredient.objects.bulk_create(ingredients)
 
         instructions = [RecipeInstruction(
