@@ -5,6 +5,7 @@ import random
 import pint
 import requests
 from bs4 import BeautifulSoup
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
@@ -22,9 +23,10 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # to be replaced by actual function
         recipes = Recipe.objects.all()
-        context["cook_next_recipes"] = random.sample(list(recipes), 5)
-        
+        context["cook_next_recipes"] = random.sample(list(recipes), min(5, recipes.count()))
+
         context["latest_recipes"] = Recipe.objects.all().order_by("-date_created")[:5]
         return context
 
@@ -99,7 +101,7 @@ class ParserInsertView(View):
             prep_time=parse_iso8601_duration(ld_json.get("prepTime")),
             cook_time=parse_iso8601_duration(ld_json.get("cookTime")),
             total_time=parse_iso8601_duration(ld_json.get("totalTime")),
-            author=ld_json["author"]["name"],
+            author=", ".join([author["name"] for author in ld_json["author"]]) if type(ld_json["author"] == list) else ld_json["author"]["name"],
             keywords=ld_json["keywords"].split(", "),
             publisher=ld_json["publisher"]["name"],
             publisher_url=ld_json["publisher"].get("requested_url"),
@@ -117,3 +119,18 @@ class ParserInsertView(View):
         ) for idx, ld_json_instruction in enumerate(ld_json["recipeInstructions"], start=1)]
         RecipeInstruction.objects.bulk_create(instructions)
         return redirect("core:index")
+
+
+class DetailView(TemplateView):
+
+    template_name = "core/detail.html"
+
+    def get_context_data(self, recipe_id, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # to be replaced by actual function
+        try:
+            context["recipe"] = Recipe.objects.get(pk=recipe_id)
+        except Recipe.DoesNotExist:
+            raise Http404
+
+        return context

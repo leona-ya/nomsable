@@ -14,7 +14,7 @@
           <tbody>
             {% for recipe in cook_next_recipes %}
             <tr>
-              <td><a href="">{{ recipe.name }}</a></td>
+              <td><a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -33,7 +33,7 @@
           <tbody>
             {% for recipe in latest_recipes %}
             <tr>
-              <td><a href="">{{ recipe.name }}</a></td>
+              <td><a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a></td>
             </tr>
             {% endfor %}
           </tbody>
