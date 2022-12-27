@@ -12,21 +12,11 @@
             </tr>
           </thead>
           <tbody>
+            {% for recipe in cook_next_recipes %}
             <tr>
-              <td>Link to recipe A</td>
+              <td><a href="">{{ recipe.name }}</a></td>
             </tr>
-            <tr>
-              <td>Link to recipe B</td>
-            </tr>
-            <tr>
-              <td>Link to recipe C</td>
-            </tr>
-            <tr>
-              <td>Link to recipe D</td>
-            </tr>
-            <tr>
-              <td>Link to recipe E</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
     </div>
@@ -41,21 +31,11 @@
             </tr>
           </thead>
           <tbody>
+            {% for recipe in latest_recipes %}
             <tr>
-              <td>Link A</td>
+              <td><a href="">{{ recipe.name }}</a></td>
             </tr>
-            <tr>
-              <td>Link B</td>
-            </tr>
-            <tr>
-              <td>Link C</td>
-            </tr>
-            <tr>
-              <td>Link D</td>
-            </tr>
-            <tr>
-              <td>Link E</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table></div>
     <div class="column">

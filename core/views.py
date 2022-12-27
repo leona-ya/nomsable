@@ -1,5 +1,6 @@
 import datetime
 import json
+import random
 
 import pint
 import requests
@@ -16,7 +17,16 @@ import isodate
 
 
 class IndexView(TemplateView):
+
     template_name = "core/home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recipes = Recipe.objects.all()
+        context["cook_next_recipes"] = random.sample(list(recipes), 5)
+        
+        context["latest_recipes"] = Recipe.objects.all().order_by("-date_created")[:5]
+        return context
 
 
 def parse_iso8601_duration(iso_duration):
@@ -106,4 +116,4 @@ class ParserInsertView(View):
             text=ld_json_instruction["text"]
         ) for idx, ld_json_instruction in enumerate(ld_json["recipeInstructions"], start=1)]
         RecipeInstruction.objects.bulk_create(instructions)
-        return redirect('core:index')
+        return redirect("core:index")
