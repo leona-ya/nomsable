@@ -16,7 +16,6 @@ from core.models import Recipe, RecipeIngredient, RecipeInstruction, Ingredient
 
 import isodate
 
-
 class IndexView(LoginRequiredMixin, TemplateView):
 
     template_name = "core/home.html"
@@ -37,7 +36,6 @@ def parse_iso8601_duration(iso_duration):
         if isinstance(maybe_timedelta, datetime.timedelta):
             iso_duration = maybe_timedelta
     return iso_duration
-
 
 def parse_ingredient(unit_registry, recipe, raw_ingredient):
     ingredient_parts = raw_ingredient.split(" ")
