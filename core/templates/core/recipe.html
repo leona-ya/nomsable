@@ -2,21 +2,23 @@
 
 {% block body %}
 <div class="container">
-  <h3>{{ recipe.name }}</h3>
+  <h2 class="recipeTitle">{{ recipe.name }}</h2>
   <div class="row">
     <div class="column column-33">
+      <h4>Ingredients</h4>
       <ul>
         {% for ingredient in recipe.ingredients.all %}
         <li>
           {% if ingredient.quantity is not None %} {{ ingredient.quantity }} {% endif %}
           {% if ingredient.unit is not None %} {{ ingredient.unit }} {% endif %}
           {{ ingredient.ingredient.name }}
-          <span class="ingredientDescription"> {% if ingredient.description is not None %} {{ ingredient.description }} {% endif %}</span>
+          <small class="ingredientDescription"> {% if ingredient.description is not None %} {{ ingredient.description }} {% endif %}</small>
         </li>
         {% endfor %}
       </ul>
     </div>
     <div class="column">
+      <h4>Steps</h4>
       <ul>
         {% for step in recipe.instructions.all %}
         <li>{{ step.text }}</li>
