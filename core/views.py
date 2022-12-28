@@ -2,7 +2,6 @@ import datetime
 import json
 import random
 
-import pint
 import requests
 from bs4 import BeautifulSoup
 from django.http import Http404
@@ -11,13 +10,14 @@ from django.views import View
 from django.views.generic import TemplateView
 from pint import UnitRegistry
 
+from accounts.helper import LoginRequiredMixin
 from core.forms import ParserInsertForm
 from core.models import Recipe, RecipeIngredient, RecipeInstruction, Ingredient
 
 import isodate
 
 
-class IndexView(TemplateView):
+class IndexView(LoginRequiredMixin, TemplateView):
 
     template_name = "core/home.html"
 
@@ -74,7 +74,7 @@ def parse_ingredient(unit_registry, recipe, raw_ingredient):
     )
 
 
-class ParserInsertView(View):
+class ParserInsertView(LoginRequiredMixin, View):
     template_name = "core/new.html"
 
     def get(self, request):
@@ -105,7 +105,8 @@ class ParserInsertView(View):
             keywords=ld_json["keywords"].split(", "),
             publisher=ld_json["publisher"]["name"],
             publisher_url=ld_json["publisher"].get("requested_url"),
-            origin_url=requested_url
+            origin_url=requested_url,
+            added_by=self.request.user
         )
         recipe.save()
         unit_registry = UnitRegistry()
@@ -121,7 +122,7 @@ class ParserInsertView(View):
         return redirect("core:index")
 
 
-class DetailView(TemplateView):
+class DetailView(LoginRequiredMixin, TemplateView):
 
     template_name = "core/detail.html"
 

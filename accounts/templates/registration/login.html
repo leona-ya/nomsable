@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+<div class="container" style="max-width: 70.0rem">
+    <div style="margin: auto;   display: flex;
+  align-items: center;
+  justify-content: center;
+">
+        <img src="{% static 'logo.svg' %}" class="img" style="width: 10rem">
+        <span style="font-size: 2.5rem">nomsable</span>
+    </div>
+    <h3>Login</h3>
+    <form method="post">
+        {% csrf_token %}
+        <fieldset>
+            {{ form }}
+        </fieldset>
+        <button class="button">Submit</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+    <nav class="navigation">
+        <section class="container">
+
+            <a class="navigation-title" href="/">
+                <img src="{% static 'logo.svg' %}" class="img">
+                <h1 class="title">nomsable</h1>
+            </a>
+
+            <ul class="navigation-list float-right">
+                <li class="navigation-item">
+                    <a class="navigation-link" href="/about" data-popover>about</a>
+                </li>
+                <li class="navigation-item">
+                    <a class="navigation-link" href="{% url 'core:add' %}" data-popover>add</a>
+                </li>
+                <li class="navigation-item">
+                    <a class="navigation-link" href="/preferences" data-popover>preferences</a>
+                </li>
+            </ul>
+
+        </section>
+    </nav>
+
+    {% block body %}{% endblock %}
+
+    <footer class="footer">
+    <section class="container">
+        <p>
+            Designed with ♥ by
+            <a
+                target="_blank"
+                href="https://leona.is"
+                title="Leona Maroni"
+                >Leona Maroni</a
+            > &
+            <a
+                target="_blank"
+                href="https://janamarie.dev"
+                title="Jana Marie Hemsing"
+                >Jana Marie Hemsing</a
+            >. Licensed under the
+            <a
+                target="_blank"
+                href="https://github.com/leona-ya/nomsable#license"
+                title="MIT License"
+                >MIT License</a
+            >.
+        </p>
+    </section>
+  </footer>
+{% endblock %}
+
