@@ -101,7 +101,7 @@ class ParserInsertView(View):
             prep_time=parse_iso8601_duration(ld_json.get("prepTime")),
             cook_time=parse_iso8601_duration(ld_json.get("cookTime")),
             total_time=parse_iso8601_duration(ld_json.get("totalTime")),
-            author=", ".join([author["name"] for author in ld_json["author"]]) if type(ld_json["author"] == list) else ld_json["author"]["name"],
+            author=", ".join([author["name"] for author in ld_json["author"]]) if type(ld_json["author"]) == list else ld_json["author"]["name"],
             keywords=ld_json["keywords"].split(", "),
             publisher=ld_json["publisher"]["name"],
             publisher_url=ld_json["publisher"].get("requested_url"),
