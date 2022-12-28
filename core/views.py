@@ -8,10 +8,13 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.shortcuts import redirect
 from pint import UnitRegistry
 
 from accounts.helper import LoginRequiredMixin
 from core.forms import ParserInsertForm
+from django.forms import ModelForm
 from core.models import Recipe, RecipeIngredient, RecipeInstruction, Ingredient
 
 import isodate
@@ -131,3 +134,20 @@ class RecipeView(TemplateView):
             raise Http404
 
         return context
+
+class EditView(TemplateView):
+    template_name = "core/edit.html"
+
+    def get_context_data(self, recipe_id, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # to be replaced by actual function
+        try:
+            context["recipe"] = Recipe.objects.get(pk=recipe_id)
+        except Recipe.DoesNotExist:
+            raise Http404
+
+        return context
+
+
+def error_404_view(request, exception):
+    return render(request, 'core/404.html')
