@@ -160,10 +160,46 @@
 table tbody td {border: none;}
 
 /* Recipe */
-.ingredientDescription {
+.ingredient-description {
     color: var(--color-primary);
 }
 
-.recipeTitle {
-    margin: 3.5rem 0
+.recipe-title {
+    margin-top: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.recipe-sub-title {
+    margin-bottom: 3.5rem;
+}
+
+.recipe-edit-link {
+    margin-top: 5.5rem 0;
+}
+
+.ingredient-list{
+    margin: 0.2rem;
+}
+
+.recipe-step-column{
+    position: relative;
+    z-index : 1;
+}
+
+.recipe-step-column:before{
+    content : "";
+    position: absolute;
+    left: -1.5rem;
+    top: 0%;
+    height: 100%;
+    width: 50%;
+    border-left-style: solid;
+    border-color: var(--color-quaternary);
+}
+
+.recipe-step:not(:last-child)
+{
+    border-bottom-style: solid;
+    border-color: var(--color-quaternary);
+    border-width: 0.1rem;
 }
