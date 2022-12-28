@@ -121,7 +121,6 @@ class ParserInsertView(LoginRequiredMixin, View):
         RecipeInstruction.objects.bulk_create(instructions)
         return redirect("core:index")
 
-
 class RecipeView(TemplateView):
     template_name = "core/recipe.html"
 
