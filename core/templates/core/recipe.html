@@ -1,4 +1,5 @@
 {% extends "base_with_navbar.html" %}
+{% load serve_duration %}
 
 {% block body %}
 <div class="container">
@@ -15,18 +16,20 @@
       <h4>Ingredients</h4>
       <ul>
         {% for ingredient in recipe.ingredients.all %}
-        <li class="ingredient-list">
-          {% if ingredient.quantity is not None %} {{ ingredient.quantity }} {% endif %}
-          {% if ingredient.unit is not None %} {{ ingredient.unit }} {% endif %}
-          {{ ingredient.ingredient.name }}
-          <small class="ingredient-description"> {% if ingredient.description is not None %} {{ ingredient.description }} {% endif %}</small>
-        </li>
+          {% if ingredient.ingredient.name != "" %}
+            <li class="ingredient-list">
+              {% if ingredient.quantity is not None %} {{ ingredient.quantity }} {% endif %}
+              {% if ingredient.unit is not None %} {{ ingredient.unit }} {% endif %}
+              {{ ingredient.ingredient.name }}
+              <small class="ingredient-description"> {% if ingredient.description is not None %} {{ ingredient.description }} {% endif %}</small>
+            </li>
+          {% endif %}
         {% endfor %}
       </ul>
       <div class="row">
-        {% if recipe.prep_time is not None %} <div class="column"><small>Preperation time {{ recipe.prep_time }}</small></div> {% endif %}
-        {% if recipe.cook_time is not None %} <div class="column"><small>Cook time {{ recipe.cook_time }}</small></div> {% endif %}
-        {% if recipe.total_time is not None %} <div class="column"><small>Total time<br> {{ recipe.total_time }}</small></div> {% endif %}
+        {% if recipe.prep_time is not None %} <div class="column"><small>Preperation time<br> {{ recipe.prep_time|serve_duration }}</small></div> {% endif %}
+        {% if recipe.cook_time is not None %} <div class="column"><small>Cook time<br> {{ recipe.cook_time|serve_duration }}</small></div> {% endif %}
+        {% if recipe.total_time is not None %} <div class="column"><small>Total time<br> {{ recipe.total_time|serve_duration }}</small></div> {% endif %}
       </div>
       <br><small class="recipe-edit-link">edit this recipe</small>
     </div>
