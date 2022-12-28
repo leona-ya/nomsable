@@ -25,10 +25,6 @@
     width: 100%;
 }
 
-.wrapper .container {
-    max-width: 80rem;
-}
-
 .wrapper > .container {
     padding-bottom: 7.5rem;
     padding-top: 7.5rem;
@@ -162,3 +158,9 @@
 
 /* table */
 table tbody td {border: none;}
+
+/* Recipe */
+.ingredientDescription {
+    font-size: 1.2rem;
+    color: var(--color-primary);
+}
