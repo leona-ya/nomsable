@@ -122,9 +122,8 @@ class ParserInsertView(LoginRequiredMixin, View):
         return redirect("core:index")
 
 
-class DetailView(LoginRequiredMixin, TemplateView):
-
-    template_name = "core/detail.html"
+class RecipeView(TemplateView):
+    template_name = "core/recipe.html"
 
     def get_context_data(self, recipe_id, **kwargs):
         context = super().get_context_data(**kwargs)
