@@ -41,6 +41,17 @@
       </div>
     </div>
   </div>
-  {% if recipe.description is not None %} <h4>About the recipe</h4> {{ recipe.description }} {% endif %}
+  <div class="row recipe-title">
+    {% if recipe.description is not None %} 
+      <div class="column column-66">
+        <h4>About the recipe</h4> {{ recipe.description }}
+      </div>
+    {% endif %}
+    {% if recipe.description is not None %} 
+      <div class="column">
+        <img src="{{ recipe.image }}" alt="Image of {{ recipe.name }} served."> 
+      </div>
+    {% endif %}
+  </div>
 </div>
 {% endblock body %}

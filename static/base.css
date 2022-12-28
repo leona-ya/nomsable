@@ -193,6 +193,7 @@ table tbody td {border: none;}
     top: 0%;
     height: 100%;
     width: 50%;
+    border-width: 0.2rem;
     border-left-style: solid;
     border-color: var(--color-quaternary);
 }
