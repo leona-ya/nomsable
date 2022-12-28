@@ -2,29 +2,45 @@
 
 {% block body %}
 <div class="container">
-  <h2 class="recipeTitle">{{ recipe.name }}</h2>
+  <h2 class="recipe-title">{{ recipe.name }}</h2>
+  {% if recipe.origin_url is not None %}<a href="{{ recipe.origin_url }}" target=_blank>{% endif %}
+    <h5 class="recipe-sub-title">
+      {% if recipe.author is not None %} by {{ recipe.author }} {% endif %}
+      {% if recipe.author is not None and recipe.publisher is not None %} ,&nbsp; {% endif %}
+      {% if recipe.publisher is not None %} published by {{ recipe.publisher }} {% endif %}
+    </h5>
+  {% if recipe.origin_url is not None %}</a>{% endif %}
   <div class="row">
     <div class="column column-33">
       <h4>Ingredients</h4>
       <ul>
         {% for ingredient in recipe.ingredients.all %}
-        <li>
+        <li class="ingredient-list">
           {% if ingredient.quantity is not None %} {{ ingredient.quantity }} {% endif %}
           {% if ingredient.unit is not None %} {{ ingredient.unit }} {% endif %}
           {{ ingredient.ingredient.name }}
-          <small class="ingredientDescription"> {% if ingredient.description is not None %} {{ ingredient.description }} {% endif %}</small>
+          <small class="ingredient-description"> {% if ingredient.description is not None %} {{ ingredient.description }} {% endif %}</small>
         </li>
         {% endfor %}
       </ul>
+      <div class="row">
+        {% if recipe.prep_time is not None %} <div class="column"><small>Preperation time {{ recipe.prep_time }}</small></div> {% endif %}
+        {% if recipe.cook_time is not None %} <div class="column"><small>Cook time {{ recipe.cook_time }}</small></div> {% endif %}
+        {% if recipe.total_time is not None %} <div class="column"><small>Total time<br> {{ recipe.total_time }}</small></div> {% endif %}
+      </div>
+      <br><small class="recipe-edit-link">edit this recipe</small>
     </div>
     <div class="column">
       <h4>Steps</h4>
-      <ul>
-        {% for step in recipe.instructions.all %}
-        <li>{{ step.text }}</li>
-        {% endfor %}
-      </ul>
+      <div class="recipe-step-column">
+        <ul>
+          {% for step in recipe.instructions.all %}
+          <li class="recipe-step">{{ step.text }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   </div>
+  {% if recipe.description is not None %} <h4>About the recipe</h4> {{ recipe.description }} {% endif %}
 </div>
 {% endblock body %}
