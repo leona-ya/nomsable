@@ -5,11 +5,20 @@
   <form method="POST" class="post-form">
     {% csrf_token %}
     {{ recipe_form.as_p }}
+    
     {{ ingredient_form.management_form }}
     {% for form in ingredient_form.forms %}
-      {{ form.as_p }}
+      <div class="row">
+        {{ form.as_p }}
+      </div>
     {% endfor %}
-    {{ instruction_form.as_p }}
+    
+    {{ instruction_form.management_form }}
+    {% for form in instruction_form.forms %}
+      <div class="row">
+        {{ form.as_p }}
+      </div>
+    {% endfor %}
     <button type="submit" class="save btn btn-default">Save</button>
   </form>
 </div>
