@@ -138,24 +138,34 @@ class RecipeView(TemplateView):
 
 class EditView(View):
     def get(self, request, recipe_id):
-        recipeForm = RecipeForm(instance=Recipe.objects.get(pk=recipe_id))
-        ingredientForm = IngredientFormSet(prefix='ingredients', queryset=Recipe.objects.get(pk=recipe_id).ingredients.all())
-        instructionForm = InstructionFormSet(prefix='steps', queryset=Recipe.objects.get(pk=recipe_id).instructions.all())
+        recipe_form = RecipeForm(instance=Recipe.objects.get(pk=recipe_id))
+        ingredient_form = IngredientFormSet(prefix='ingredients', queryset=Recipe.objects.get(pk=recipe_id).ingredients.all())
+        instruction_form = InstructionFormSet(prefix='steps', queryset=Recipe.objects.get(pk=recipe_id).instructions.all())
         return render(request, "core/edit.html", {
-            "recipe_form": recipeForm,
-            "ingredient_form": ingredientForm,
-            "instruction_form": instructionForm
+            "recipe_form": recipe_form,
+            "ingredient_form": ingredient_form,
+            "instruction_form": instruction_form
             })
 
     def post(self, request, recipe_id):
-        recipeForm = RecipeForm(request.POST, instance=Recipe.objects.get(pk=recipe_id))
-        ingredientForm = IngredientFormSet(request.POST, prefix='ingredients')
-        instructionForm = InstructionFormSet(request.POST, prefix='steps')
-        if recipeForm.is_valid() and ingredientForm.is_valid() and instructionForm.is_valid():
+        recipe_form = RecipeForm(request.POST, instance=Recipe.objects.get(pk=recipe_id))
+        ingredient_form = IngredientFormSet(request.POST, prefix='ingredients')
+        instruction_form = InstructionFormSet(request.POST, prefix='steps')
+        if recipe_form.is_valid() and ingredient_form.is_valid() and instruction_form.is_valid():
             # todo: Actually validate
-            recipeForm.save()
-            ingredientForm.save()
-            instructionForm.save()
+            recipe_form.save()
+            ingredient_form.save(commit=False)
+            ingredient_form.save_existing_objects()
+            ingredient_form.save_new_objects(commit=False)
+            for new_ingredient in ingredient_form.new_objects:
+                new_ingredient.recipe_id = recipe_id
+                new_ingredient.save()
+            instruction_form.save(commit=False)
+            instruction_form.save_existing_objects()
+            instruction_form.save_new_objects(commit=False)
+            for new_instruction in instruction_form.new_objects:
+                new_instruction.recipe_id = recipe_id
+                new_instruction.save()
             return redirect('core:detail', recipe_id=recipe_id)
 
 def error_404_view(request, exception):
