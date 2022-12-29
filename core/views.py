@@ -167,6 +167,11 @@ class EditView(View):
                 new_instruction.recipe_id = recipe_id
                 new_instruction.save()
             return redirect('core:detail', recipe_id=recipe_id)
+        return render(request, "core/edit.html", {
+            "recipe_form": recipe_form,
+            "ingredient_form": ingredient_form,
+            "instruction_form": instruction_form
+            }) 
 
 def error_404_view(request, exception):
     return render(request, 'core/404.html')
