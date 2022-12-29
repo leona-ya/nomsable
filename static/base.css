@@ -204,3 +204,22 @@ table tbody td {border: none;}
     border-color: var(--color-quaternary);
     border-width: 0.1rem;
 }
+
+/* 404 */
+.class404 {
+    font-size: 20rem;
+   display: block;
+    height: 5.2rem;
+    left: 0;
+    max-width: 100%;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+.class404 .svg {
+    position: relative;
+    vertical-align: middle;
+}
