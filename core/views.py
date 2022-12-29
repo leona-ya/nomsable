@@ -10,12 +10,15 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.shortcuts import redirect
+from django.views.generic.edit import FormView
+from django.forms import formset_factory
 from pint import UnitRegistry
 
 from accounts.helper import LoginRequiredMixin
 from core.forms import ParserInsertForm
 from django.forms import ModelForm
 from core.models import Recipe, RecipeIngredient, RecipeInstruction, Ingredient
+from core.forms import RecipeForm, IngredientFormSet, InstructionFormSet
 
 import isodate
 
@@ -25,7 +28,6 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # to be replaced by actual function
         recipes = Recipe.objects.all()
         context["cook_next_recipes"] = random.sample(list(recipes), min(5, recipes.count()))
 
@@ -127,7 +129,6 @@ class RecipeView(TemplateView):
 
     def get_context_data(self, recipe_id, **kwargs):
         context = super().get_context_data(**kwargs)
-        # to be replaced by actual function
         try:
             context["recipe"] = Recipe.objects.get(pk=recipe_id)
         except Recipe.DoesNotExist:
@@ -135,19 +136,27 @@ class RecipeView(TemplateView):
 
         return context
 
-class EditView(TemplateView):
-    template_name = "core/edit.html"
+class EditView(View):
+    def get(self, request, recipe_id):
+        recipeForm = RecipeForm(instance=Recipe.objects.get(pk=recipe_id))
+        ingredientForm = IngredientFormSet(prefix='ingredients', queryset=Recipe.objects.get(pk=recipe_id).ingredients.all())
+        instructionForm = InstructionFormSet(prefix='steps', queryset=Recipe.objects.get(pk=recipe_id).instructions.all())
+        return render(request, "core/edit.html", {
+            "recipe_form": recipeForm,
+            "ingredient_form": ingredientForm,
+            "instruction_form": instructionForm
+            })
 
-    def get_context_data(self, recipe_id, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # to be replaced by actual function
-        try:
-            context["recipe"] = Recipe.objects.get(pk=recipe_id)
-        except Recipe.DoesNotExist:
-            raise Http404
-
-        return context
-
+    def post(self, request, recipe_id):
+        recipeForm = RecipeForm(request.POST, instance=Recipe.objects.get(pk=recipe_id))
+        ingredientForm = IngredientFormSet(request.POST, prefix='ingredients')
+        instructionForm = InstructionFormSet(request.POST, prefix='steps')
+        if recipeForm.is_valid() and ingredientForm.is_valid() and instructionForm.is_valid():
+            # todo: Actually validate
+            recipeForm.save()
+            ingredientForm.save()
+            instructionForm.save()
+            return redirect('core:detail', recipe_id=recipe_id)
 
 def error_404_view(request, exception):
     return render(request, 'core/404.html')
