@@ -31,7 +31,7 @@
         {% if recipe.cook_time is not None %} <div class="column"><small>Cook time<br> {{ recipe.cook_time|serve_duration }}</small></div> {% endif %}
         {% if recipe.total_time is not None %} <div class="column"><small>Total time<br> {{ recipe.total_time|serve_duration }}</small></div> {% endif %}
       </div>
-      <br><small class="recipe-edit-link">edit this recipe</small>
+      <br><a href="{% url 'core:edit' recipe_id=recipe.id %}"><small class="recipe-edit-link">edit this recipe</small></a>
     </div>
     <div class="column">
       <h4>Steps</h4>
