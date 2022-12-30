@@ -54,7 +54,7 @@ def parse_ingredient(unit_registry, recipe, raw_ingredient):
     for idx, _ in enumerate(ingredient_parts, start=1):
         try:
             quantity = unit_registry(" ".join(ingredient_parts[:idx]))
-        except Exception as e:
+        except:
             break
         last_parseable_idx = idx
 
@@ -73,12 +73,17 @@ def parse_ingredient(unit_registry, recipe, raw_ingredient):
         ingredient_obj = Ingredient(name=ingredient)
         ingredient_obj.save()
 
+    unit=None
+    try:
+        unit=unit_registry.get_symbol(str(quantity.u)) if hasattr(quantity, "u") else None
+    except:
+        pass
+
+
     return RecipeIngredient(
         recipe_id=recipe.id,
         ingredient_id=ingredient_obj.id,
-        unit=unit_registry.get_symbol(str(quantity.u))
-        if hasattr(quantity, "u")
-        else None,
+        unit=unit,
         quantity=quantity.m if hasattr(quantity, "m") else None,
         description=description,
     )
