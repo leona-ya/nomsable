@@ -9,16 +9,13 @@
 
 /* playfair-display-regular - latin */
 @font-face {
-  font-family: 'Playfair Display';
+  font-family: 'DejaVu Serif';
   font-style: normal;
   font-weight: 400;
-  src: url('../fonts/playfair-display-v30-latin-regular.eot'); /* IE9 Compat Modes */
+  src: url('fonts/DejaVuSerif.woff2'); /* IE9 Compat Modes */
   src: local(''),
-       url('../fonts/playfair-display-v30-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../fonts/playfair-display-v30-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../fonts/playfair-display-v30-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('../fonts/playfair-display-v30-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../fonts/playfair-display-v30-latin-regular.svg#PlayfairDisplay') format('svg'); /* Legacy iOS */
+       url('fonts/DejaVuSerif.woff2') format('woff2'), /* Super Modern Browsers */
+       url('fonts/DejaVuSerif.ttf') format('truetype'), /* Safari, Android, iOS */
 }
 
 /* wrapper */
