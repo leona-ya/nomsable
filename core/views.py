@@ -8,14 +8,11 @@ from functools import reduce
 import isodate
 import requests
 from bs4 import BeautifulSoup
-from django.conf import settings
 from django.db.models import Q
-from django.forms import ModelForm, formset_factory
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
 from pint import UnitRegistry
 
 from accounts.helper import LoginRequiredMixin
@@ -25,6 +22,7 @@ from core.forms import (
     ParserInsertForm,
     RecipeForm,
     SearchForm,
+    RecipeTagFormSet,
 )
 from core.models import Ingredient, Recipe, RecipeIngredient, RecipeInstruction
 
@@ -253,7 +251,9 @@ class RecipeView(TemplateView):
 
 class EditView(View):
     def get(self, request, recipe_id):
-        recipe_form = RecipeForm(instance=Recipe.objects.get(pk=recipe_id))
+        recipe = Recipe.objects.get(pk=recipe_id)
+        recipe_form = RecipeForm(instance=recipe)
+        recipe_tag_form = RecipeTagFormSet(prefix="recipe_tag", instance=recipe)
         ingredient_form = IngredientFormSet(
             prefix="ingredients",
             queryset=Recipe.objects.get(pk=recipe_id).ingredients.all(),
@@ -266,27 +266,29 @@ class EditView(View):
             "core/edit.html",
             {
                 "recipe_form": recipe_form,
+                "recipe_tag_form": recipe_tag_form,
                 "ingredient_form": ingredient_form,
                 "instruction_form": instruction_form,
             },
         )
 
     def post(self, request, recipe_id):
-        recipe_form = RecipeForm(
-            request.POST, instance=Recipe.objects.get(pk=recipe_id)
+        recipe = Recipe.objects.get(pk=recipe_id)
+        recipe_form = RecipeForm(request.POST, instance=recipe)
+        recipe_tag_form = RecipeTagFormSet(
+            request.POST, prefix="recipe_tag", instance=recipe
         )
         ingredient_form = IngredientFormSet(request.POST, prefix="ingredients")
         instruction_form = InstructionFormSet(request.POST, prefix="steps")
-        print(recipe_form.errors)
-        print(ingredient_form.errors)
-        print(instruction_form.errors)
         if (
             recipe_form.is_valid()
+            and recipe_tag_form.is_valid()
             and ingredient_form.is_valid()
             and instruction_form.is_valid()
         ):
             # todo: Actually validate
             recipe_form.save()
+            recipe_tag_form.save()
             ingredient_form.save(commit=False)
             ingredient_form.save_existing_objects()
             ingredient_form.save_new_objects(commit=False)
@@ -305,6 +307,7 @@ class EditView(View):
             "core/edit.html",
             {
                 "recipe_form": recipe_form,
+                "recipe_tag_form": recipe_tag_form,
                 "ingredient_form": ingredient_form,
                 "instruction_form": instruction_form,
             },

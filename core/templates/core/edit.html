@@ -49,18 +49,41 @@
         <span class="form-error">{{ recipe_form.cook_time.errors.0 }}</span>
         {{ recipe_form.cook_time.label_tag }} {{ recipe_form.cook_time }}
       </div>
-      <div class="column"> 
+      <div class="column">
         <span class="form-error">{{ recipe_form.total_time.errors.0 }}</span>
         {{ recipe_form.total_time.label_tag }} {{ recipe_form.total_time }}
       </div>
     </div>
 
-    <h2 class="edit-title">ingredients:</h2>
+    {{ recipe_tag_form.management_form }}
+    {% for form in recipe_tag_form.forms %}
+      {{ form.id }}
+      {% if forloop.first %}
+        <div class="row">
+          <div class="column">
+            {{ form.tag.label_tag }}
+          </div>
+          <div class="column column-10">
+            {{ form.DELETE.label_tag }}
+          </div>
+        </div>
+      {% endif %}
+      <div class="row">
+        <div class="column">
+          <span class="form-error">{{ form.tag.errors.0 }}</span>
+          {{ form.tag }}
+        </div>
+        <div class="column column-10">
+          {{ form.DELETE }}
+        </div>
+      </div>
+    {% endfor %}
 
+    <h2 class="edit-title">ingredients:</h2>
     {{ ingredient_form.management_form }}
     {% for form in ingredient_form.forms %}
       {{ form.id }}
-      {% if forloop.first %} 
+      {% if forloop.first %}
         <div class="row">
             <div class="column column-10"> {{ form.quantity.label_tag }} </div>
             <div class="column column-10"> {{ form.unit.label_tag }} </div>
@@ -72,26 +95,26 @@
       <div class="row">
         <div class="column column-10">
           <span class="form-error">{{ form.quantity.errors.0 }}</span>
-          {{ form.quantity }} 
+          {{ form.quantity }}
         </div>
         <div class="column column-10">
           <span class="form-error">{{ form.unit.errors.0 }}</span>
-          {{ form.unit }} 
+          {{ form.unit }}
         </div>
         <div class="column">
           <span class="form-error">{{ form.ingredient.errors.0 }}</span>
-          {{ form.ingredient }} 
+          {{ form.ingredient }}
         </div>
         <div class="column">
           <span class="form-error">{{ form.description.errors.0 }}</span>
-          {{ form.description }} 
+          {{ form.description }}
         </div>
         <div class="column column-10">
-          {{ form.DELETE }} 
+          {{ form.DELETE }}
         </div>
       </div>
     {% endfor %}
-    
+
     <h2 class="edit-title">steps:</h2>
 
     {{ instruction_form.management_form }}
@@ -114,7 +137,7 @@
           {{ form.text }}
         </div>
         <div class="column column-10">
-          {{ form.DELETE }} 
+          {{ form.DELETE }}
         </div>
       </div>
     {% endfor %}

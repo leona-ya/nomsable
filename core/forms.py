@@ -1,8 +1,14 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm, formset_factory, modelformset_factory, widgets
+from django.forms import (
+    ModelForm,
+    formset_factory,
+    inlineformset_factory,
+    modelformset_factory,
+    widgets,
+)
 
-from core.models import Ingredient, Recipe, RecipeIngredient, RecipeInstruction
+from core.models import Ingredient, Recipe, RecipeIngredient, RecipeInstruction, Tag
 
 
 class ParserInsertForm(forms.Form):
@@ -53,10 +59,6 @@ class IngredientForm(ModelForm):
         obj, _ = Ingredient.objects.get_or_create(name=ingredient)
         return obj
 
-    def clean_recipe_id(self):
-        print(self)
-        return 1
-
 
 class SearchForm(forms.Form):
     search = forms.CharField(
@@ -78,4 +80,28 @@ InstructionFormSet = modelformset_factory(
     RecipeInstruction,
     fields=("step_no", "text"),
     can_delete=True,
+)
+
+
+class RecipeTagForm(forms.ModelForm):
+    tag = forms.CharField(label="Tags")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.initial.get("tag") is not None:
+            self.initial["tag"] = Tag.objects.get(pk=self.initial["tag"]).name
+
+    def clean_tag(self):
+        tag, _ = Tag.objects.get_or_create(name=self.cleaned_data["tag"])
+        return tag
+
+
+RecipeTagFormSet = inlineformset_factory(
+    Recipe,
+    Recipe.tags.through,
+    fields=("tag",),
+    form=RecipeTagForm,
+    extra=1,
+    can_delete=True,
+    can_delete_extra=True,
 )
