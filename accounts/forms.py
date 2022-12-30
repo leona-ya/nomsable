@@ -4,6 +4,5 @@ from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
 class AuthenticationForm(AuthenticationForm):
     username = UsernameField(
-        label='Username or Email',
-        widget=forms.TextInput(attrs={'autofocus': True})
+        label="Username or Email", widget=forms.TextInput(attrs={"autofocus": True})
     )

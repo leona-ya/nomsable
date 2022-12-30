@@ -1,9 +1,13 @@
-from . import views
-from django.urls import path, include
+from django.urls import path
 
-from .views import LoginView
+from accounts.views import auth, preferences
 
-app_name = 'accounts'
+app_name = "accounts"
 urlpatterns = [
-    path('login/', LoginView.as_view(), name='login'),
+    path("login/", auth.LoginView.as_view(), name="login"),
+    path(
+        "preferences/",
+        preferences.PreferencesIndexView.as_view(),
+        name="preferences_index",
+    ),
 ]
