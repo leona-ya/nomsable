@@ -4,14 +4,14 @@
     <nav class="navigation">
         <section class="container">
 
-            <a class="navigation-title" href="/">
+            <a class="navigation-title" href="{% url 'core:index' %}">
                 <img src="{% static 'logo.svg' %}" class="img">
                 <h1 class="title">nomsable</h1>
             </a>
 
             <ul class="navigation-list float-right">
                 <li class="navigation-item">
-                    <a class="navigation-link" href="/about" data-popover>about</a>
+                    <a class="navigation-link" href="{% url 'core:about' %}" data-popover>about</a>
                 </li>
                 <li class="navigation-item">
                     <a class="navigation-link" href="{% url 'core:add' %}" data-popover>add</a>

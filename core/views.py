@@ -143,7 +143,6 @@ class ParserInsertView(LoginRequiredMixin, View):
         RecipeInstruction.objects.bulk_create(instructions)
         return redirect("core:edit", recipe_id=recipe.id)
 
-
 class RecipeView(TemplateView):
     template_name = "core/recipe.html"
 
@@ -218,3 +217,7 @@ class EditView(View):
 
 def error_404_view(request, exception):
     return render(request, "core/404.html")
+
+
+class AboutView(TemplateView):
+    template_name = "core/about.html"
