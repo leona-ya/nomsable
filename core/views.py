@@ -93,7 +93,17 @@ class SearchView(LoginRequiredMixin, View):
 
     def post(self, request):
         query = SearchForm(request.POST)
-        return render(request, self.template_name, {"search_form": query})
+        if not query.is_valid():
+            return render(
+                request, "core/search.html", {"search_form": SearchForm}
+            )  # add form errors
+        search_term = query.cleaned_data["search"]
+        search_results = Recipe.objects.filter(name__contains=search_term)
+        return render(
+            request,
+            self.template_name,
+            {"search_form": query, "search_results": search_results},
+        )
 
 
 def parse_iso8601_duration(iso_duration):

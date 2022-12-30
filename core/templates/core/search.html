@@ -12,5 +12,25 @@
             </form>
         </div>
     </div>
+    {% for recipe in search_results %}
+        <div class="row">
+            <div class="column column-3 column-offset-5 frontpage-list"> {{ forloop.counter }}. </div>
+            <div class="column column-5 frontpage-list">
+                {% if recipe.image is not None %}
+                <img src="{{ recipe.image }}" class="frontpage-image" alt="serving suggestion" title="serving suggestion">
+                {% endif %}
+            </div>
+            <div class="column column-80 frontpage-list">
+            <a href="{% url 'core:detail' recipe_id=recipe.pk %}">
+                {{ recipe.name }}
+                <small class="recipe-sub-title">
+                {% if recipe.author != "" %} by {{ recipe.author }} {% endif %}
+                {% if recipe.author != "" or recipe.publisher != "" %},&nbsp; {% endif %}
+                {% if recipe.publisher != "" %} published by {{ recipe.publisher }} {% endif %}
+                </small>
+            </a>
+            </div>
+        </div>
+    {% endfor %}
 </div>
 {% endblock body %}
