@@ -1,3 +1,6 @@
+import datetime
+import uuid
+
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import UserManager
 from django.db import models
@@ -44,3 +47,17 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return "<User username={}>".format(self.username)
+
+
+class InviteCode(models.Model):
+    code = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    expires = models.DateTimeField(default=(datetime.datetime.now() + datetime.timedelta(days=7)))
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    @classmethod
+    def is_code_valid(cls, code):
+        try:
+            cls.objects.get(code=code, expires__gt=datetime.datetime.now())
+            return True
+        except cls.DoesNotExist:
+            return False

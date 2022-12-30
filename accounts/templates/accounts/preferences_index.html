@@ -1,0 +1,29 @@
+{% extends "base_with_navbar.html" %}
+{% block body %}
+<div class="container">
+    <h2>Preferences</h2>
+    <!--tbd-->
+    <h3>Admin</h3>
+    <!--<h4>Users</h4>-->
+    <h4>Invite Codes</h4>
+    Every invite code is valid for 7 days and for max. 1 use.
+    <br>
+    <a href="{% url 'accounts:preferences_create_invite_code' %}" class="button btn btn-default edit-title">Create invite code</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Invite Code</th>
+                <th>Best before</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invite_code in invite_codes %}
+                <tr>
+                    <td>{{ invite_code.code }}</td>
+                    <td>{{ invite_code.expires }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
