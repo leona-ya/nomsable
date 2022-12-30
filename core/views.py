@@ -21,8 +21,8 @@ from core.forms import (
     InstructionFormSet,
     ParserInsertForm,
     RecipeForm,
-    SearchForm,
     RecipeTagFormSet,
+    SearchForm,
 )
 from core.models import Ingredient, Recipe, RecipeIngredient, RecipeInstruction
 
@@ -104,27 +104,49 @@ class SearchView(LoginRequiredMixin, View):
                 request, "core/search.html", {"search_form": SearchForm}
             )  # add form errors
         search_term = re.split(" |,", query.cleaned_data["search"].lower())
+
         ingredient_term = []
         for idx, term in enumerate(search_term):
             if term.startswith("ingredient:"):
                 ingredient_term.append(search_term.pop(idx)[11:])
-        print(ingredient_term)
-        search_results = Recipe.objects.filter(
-            reduce(
-                operator.and_,
-                (Q(name__contains=x) | Q(description__contains=x) for x in search_term),
-                ~Q(pk__in=[]),
-            ),
-            reduce(
-                operator.and_,
-                (
-                    Q(ingredients__ingredient__name__contains=x)
-                    | Q(ingredients__description__contains=x)
-                    for x in ingredient_term
+
+        user_term = []
+        for idx, term in enumerate(search_term):
+            if term.startswith("added_by:"):
+                user_term.append(search_term.pop(idx)[9:])
+
+        wildcard = False
+        for idx, term in enumerate(search_term):
+            if term.startswith("*"):
+                wildcard = True
+
+        if wildcard:
+            search_results = Recipe.objects.all()
+        else:
+            search_results = Recipe.objects.filter(
+                reduce(
+                    operator.and_,
+                    (
+                        Q(name__contains=x) | Q(description__contains=x)
+                        for x in search_term
+                    ),
+                    ~Q(pk__in=[]),
                 ),
-                ~Q(pk__in=[]),
-            ),
-        )
+                reduce(
+                    operator.and_,
+                    (
+                        Q(ingredients__ingredient__name__contains=x)
+                        | Q(ingredients__description__contains=x)
+                        for x in ingredient_term
+                    ),
+                    ~Q(pk__in=[]),
+                ),
+                reduce(
+                    operator.and_,
+                    (Q(added_by__username=x) for x in user_term),
+                    ~Q(pk__in=[]),
+                ),
+            )
         """| Q(keywords__contains=[x])"""
         return render(
             request,
