@@ -61,12 +61,15 @@ class IndexView(LoginRequiredMixin, TemplateView):
                 "hoi",
                 "¡hola",
                 "¡hi",
+                "servus",
+                "gude",
             ]
         )
         context["greeting_emoji"] = random.choices(
             population=[
                 "",
                 ":3",
+                "🐈",
                 "=^-^=",
                 ":3~",
                 "⁼^⁻^⁼",
@@ -74,7 +77,8 @@ class IndexView(LoginRequiredMixin, TemplateView):
             ],
             weights=[
                 0.2,
-                0.5,
+                0.4,
+                0.1,
                 0.1,
                 0.1,
                 0.05,
