@@ -25,14 +25,14 @@
                 {% endif %}
             </div>
             <div class="column frontpage-list">
-            <a href="{% url 'core:detail' recipe_id=recipe.pk %}">
-                {{ recipe.name }}
-                <small class="recipe-sub-title">
-                {% if recipe.author != "" %} by {{ recipe.author }} {% endif %}
-                {% if recipe.author != "" or recipe.publisher != "" %},&nbsp; {% endif %}
-                {% if recipe.publisher != "" %} published by {{ recipe.publisher }} {% endif %}
-                </small>
-            </a>
+                <a href="{% url 'core:detail' recipe_id=recipe.pk %}">
+                    {{ recipe.name }}
+                    <small class="recipe-sub-title">
+                    {% if recipe.author != "" %} by {{ recipe.author }} {% endif %}
+                    {% if recipe.author != "" or recipe.publisher != "" %},&nbsp; {% endif %}
+                    {% if recipe.publisher != "" %} published by {{ recipe.publisher }} {% endif %}
+                    </small>
+                </a>
             </div>
         </div>
     {% endfor %}
