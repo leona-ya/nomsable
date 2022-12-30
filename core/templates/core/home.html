@@ -3,7 +3,12 @@
 {% block body %}
 <div class="container">
   <div class="row">
-  	<div class="column column-offset-5"> <h4 class="recipe-title">what to cook?</h4> </div>
+    <div class="column column-offset-5 recipe-title">
+      <h4>{{ greeting }} {{ user.name }}! {{ greeting_emoji }}</h4>
+    </div>
+  </div>
+  <div class="row">
+  	<div class="column column-offset-5"> <h4 class="">what to cook?</h4> </div>
   </div>
   {% for recipe in cook_next_recipes %}
     <div class="row">

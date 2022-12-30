@@ -34,7 +34,47 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context["cook_next_recipes"] = random.sample(
             list(recipes), min(5, recipes.count())
         )
-
+        context["greeting"] = random.choice(
+            ["welcome back",
+             "welcome",
+             "willkommen",
+             "bonjour",
+             "salut!",
+             "hey",
+             "hi",
+             "hello",
+             "howdy",
+             "mew",
+             "heyyy",
+             "hiya",
+             "kama pona",
+             "pona!"
+             "o!",
+             "greetings",
+             "你好",
+             "long-time no see",
+             "sup",
+             "good to see you",
+             "hoi",
+             "¡hola",
+             "¡hi",]
+        )
+        context["greeting_emoji"] = random.choices(
+            population= ["",
+                         ":3",
+                         "=^-^=",
+                         ":3~",
+                         "⁼^⁻^⁼",
+                         "purr~",
+                        ],
+            weights=    [0.2,
+                         0.5,
+                         0.1,
+                         0.1,
+                         0.05,
+                         0.05,],
+            k=1,
+            )[0]
         context["latest_recipes"] = Recipe.objects.all().order_by("-date_created")[:5]
         return context
 
