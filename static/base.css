@@ -237,3 +237,9 @@ table tbody td {border: none;}
     margin-top: 3.5rem;
     margin-bottom: 2.5rem;
 }
+
+/* fontpage */
+.fontpage-list {
+    margin: 1rem 0;
+    align-items: center;
+}

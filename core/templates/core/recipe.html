@@ -6,9 +6,9 @@
   <h2 class="recipe-title">{{ recipe.name }}</h2>
   {% if recipe.origin_url is not None %}<a href="{{ recipe.origin_url }}" target=_blank>{% endif %}
     <h5 class="recipe-sub-title">
-      {% if recipe.author is not None %} by {{ recipe.author }} {% endif %}
-      {% if recipe.author is not None and recipe.publisher is not None %} ,&nbsp; {% endif %}
-      {% if recipe.publisher is not None %} published by {{ recipe.publisher }} {% endif %}
+      {% if recipe.author != "" %} by {{ recipe.author }} {% endif %}
+      {% if recipe.author != "" or recipe.publisher != "" %},&nbsp; {% endif %}
+      {% if recipe.publisher != "" %} published by {{ recipe.publisher }} {% endif %}
     </h5>
   {% if recipe.origin_url is not None %}</a>{% endif %}
   <div class="row">
@@ -52,7 +52,7 @@
     {% endif %}
     {% if recipe.description is not None %} 
       <div class="column">
-        <img src="{{ recipe.image }}" alt="Image of {{ recipe.name }} served."> 
+        <img src="{{ recipe.image }}" alt="Image of {{ recipe.name }} {% if recipe.author != '' %} by {{ recipe.author }} {% endif %} served."> 
       </div>
     {% endif %}
   </div>

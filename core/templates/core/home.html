@@ -2,26 +2,37 @@
 
 {% block body %}
 <div class="container">
-
   <div class="row">
-  	<div class="column"> <h4 class="recipe-title">what to cook?</h4> </div>
+  	<div class="column column-offset-5"> <h4 class="recipe-title">what to cook?</h4> </div>
   </div>
   {% for recipe in cook_next_recipes %}
     <div class="row">
-      <div class="column">
-        <a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a>
+      <div class="column column-3 column-offset-5 fontpage-list"> {{ forloop.counter }}. </div>
+      <div class="column column-5 fontpage-list">
+        {% if recipe.image is not None %}
+          <img src="{{ recipe.image }}" class="frontpage-image" alt="Image of {{ recipe.name }} {% if recipe.author != '' %} by {{ recipe.author }} {% endif %} served."> 
+        {% endif %}
+      </div>
+      <div class="column column-80 fontpage-list">
+        <a href="{% url 'core:detail' recipe_id=recipe.pk %}">
+          {{ recipe.name }}
+          <small class="recipe-sub-title">
+            {% if recipe.author != "" %} by {{ recipe.author }} {% endif %}
+            {% if recipe.author != "" or recipe.publisher != "" %},&nbsp; {% endif %}
+            {% if recipe.publisher != "" %} published by {{ recipe.publisher }} {% endif %}
+          </small>
+        </a>
       </div>
     </div>
   {% endfor %}
-
-  <div class="row">
-    <div class="column">
+  <div class="row recipe-title">
+    <div class="column column-offset-5">
   <div class="row">
     <div class="column"> <h4 class="recipe-title">latest recipes</h4> </div>
       </div>
       {% for recipe in latest_recipes %}
         <div class="row">
-          <div class="column">
+          <div class="column fontpage-list">
             <a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a>
           </div>
         </div>
@@ -29,11 +40,11 @@
     </div>
     <div class="column">
       <div class="row">
-        <div class="column"> <h4 class="recipe-title">most cooked</h4> </div>
+        <div class="column "> <h4 class="recipe-title">most cooked</h4> </div>
       </div>
       {% for recipe in cook_next_recipes %}
         <div class="row">
-          <div class="column">
+          <div class="column fontpage-list">
             <a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a>
           </div>
         </div>
