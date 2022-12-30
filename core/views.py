@@ -122,18 +122,16 @@ class ParserInsertView(LoginRequiredMixin, View):
             text=ld_json_instruction["text"]
         ) for idx, ld_json_instruction in enumerate(ld_json["recipeInstructions"], start=1)]
         RecipeInstruction.objects.bulk_create(instructions)
-        return redirect("core:index")
+        return redirect("core:edit", recipe_id=recipe.id )
 
 class RecipeView(TemplateView):
     template_name = "core/recipe.html"
-
     def get_context_data(self, recipe_id, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
             context["recipe"] = Recipe.objects.get(pk=recipe_id)
         except Recipe.DoesNotExist:
             raise Http404
-
         return context
 
 class EditView(View):
