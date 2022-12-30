@@ -39,9 +39,11 @@ IngredientFormSet = modelformset_factory(
     widgets={
         'quantity': forms.TextInput(),
     },
+    can_delete=True,
 )
 
 InstructionFormSet = modelformset_factory(
     RecipeInstruction,
     fields=('step_no', 'text'),
+    can_delete=True,
 )

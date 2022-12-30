@@ -5,7 +5,7 @@
   <form method="POST" class="post-form">
     {% csrf_token %}
 
-    <div class="row">
+    <div class="row recipe-title">
       <div class="column column-10"> <h1> Edit </h1> </div>
       <div class="column">
         <span class="form-error">{{ recipe_form.name.errors.0 }}</span>
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <h2>Ingredients:</h2>
+    <h2 class="edit-title">Ingredients:</h2>
 
     {{ ingredient_form.management_form }}
     {% for form in ingredient_form.forms %}
@@ -66,6 +66,7 @@
             <div class="column column-10"> {{ form.unit.label_tag }} </div>
             <div class="column"> {{ form.ingredient.label_tag }} </div>
             <div class="column"> {{ form.description.label_tag }} </div>
+            <div class="column column-10"> {{ form.DELETE.label_tag }} </div>
         </div>
       {% endif %}
       <div class="row">
@@ -85,10 +86,13 @@
           <span class="form-error">{{ form.description.errors.0 }}</span>
           {{ form.description }} 
         </div>
+        <div class="column column-10">
+          {{ form.DELETE }} 
+        </div>
       </div>
     {% endfor %}
     
-    <h2>Steps:</h2>
+    <h2 class="edit-title">Steps:</h2>
 
     {{ instruction_form.management_form }}
     {% for form in instruction_form.forms %}
@@ -97,6 +101,7 @@
         <div class="row">
           <div class="column column-10"> {{ form.step_no.label_tag }} </div>
           <div class="column"> {{ form.text.label_tag }} </div>
+          <div class="column column-10"> {{ form.DELETE.label_tag }} </div>
         </div>
       {% endif %}
       <div class="row">
@@ -108,10 +113,13 @@
           <span class="form-error">{{ form.text.errors.0 }}</span>
           {{ form.text }}
         </div>
+        <div class="column column-10">
+          {{ form.DELETE }} 
+        </div>
       </div>
     {% endfor %}
 
-    <button type="submit" class="save btn btn-default">Save</button>
+    <button type="submit" class="save btn btn-default edit-title">Save</button>
   </form>
 </div>
 {% endblock body %}

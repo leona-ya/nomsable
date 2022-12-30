@@ -228,3 +228,8 @@ table tbody td {border: none;}
 .form-error {
     color: red;
 }
+
+.edit-title {
+    margin-top: 3.5rem;
+    margin-bottom: 2.5rem;
+}
