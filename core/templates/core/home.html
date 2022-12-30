@@ -4,55 +4,40 @@
 <div class="container">
 
   <div class="row">
-  	<div class="column">
-    	<table>
-          <thead>
-            <tr>
-              <th><h4>what to cook?</h4></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for recipe in cook_next_recipes %}
-            <tr>
-              <td><a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-    </div>
+  	<div class="column"> <h4 class="recipe-title">what to cook?</h4> </div>
   </div>
+  {% for recipe in cook_next_recipes %}
+    <div class="row">
+      <div class="column">
+        <a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a>
+      </div>
+    </div>
+  {% endfor %}
 
   <div class="row">
     <div class="column">
-        <table>
-          <thead>
-            <tr>
-              <th><h4>latest recipes</h4></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for recipe in latest_recipes %}
-            <tr>
-              <td><a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table></div>
+  <div class="row">
+    <div class="column"> <h4 class="recipe-title">latest recipes</h4> </div>
+      </div>
+      {% for recipe in latest_recipes %}
+        <div class="row">
+          <div class="column">
+            <a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
     <div class="column">
-        <table>
-          <thead>
-            <tr>
-              <th><h4>most cooked</h4></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for recipe in latest_recipes %}
-            <tr>
-              <td><a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <div class="row">
+        <div class="column"> <h4 class="recipe-title">most cooked</h4> </div>
+      </div>
+      {% for recipe in cook_next_recipes %}
+        <div class="row">
+          <div class="column">
+            <a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
 </div>
