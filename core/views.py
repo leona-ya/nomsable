@@ -3,6 +3,7 @@ import json
 import operator
 import random
 import re
+from datetime import datetime, timedelta
 from functools import reduce
 
 import isodate
@@ -106,19 +107,42 @@ class SearchView(LoginRequiredMixin, View):
         search_term = re.split(" |,", query.cleaned_data["search"].lower())
 
         ingredient_term = []
-        for idx, term in enumerate(search_term):
-            if term.startswith("ingredient:"):
-                ingredient_term.append(search_term.pop(idx)[11:])
-
         user_term = []
-        for idx, term in enumerate(search_term):
-            if term.startswith("added_by:"):
-                user_term.append(search_term.pop(idx)[9:])
-
+        publisher_term = []
+        author_term = []
+        time_gt_term = []
+        time_lt_term = []
+        time_eq_term = []
+        title_term = []
         wildcard = False
-        for idx, term in enumerate(search_term):
-            if term.startswith("*"):
+        for term in search_term:
+            if term.startswith("time:gt:"):
+                t = datetime.strptime(term[8:], "%H:%M:%S")
+                time_gt_term.append(
+                    timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
+                )
+            elif term.startswith("time:lt:"):
+                t = datetime.strptime(term[8:], "%H:%M:%S")
+                time_lt_term.append(
+                    timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
+                )
+            elif term.startswith("time:eq:"):
+                t = datetime.strptime(term[8:], "%H:%M:%S")
+                time_eq_term.append(
+                    timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
+                )
+            elif term.startswith("ingredient:"):
+                ingredient_term.append(term[11:])
+            elif term.startswith("user:"):
+                user_term.append(term[9:])
+            elif term.startswith("author:"):
+                author_term.append(term[7:])
+            elif term.startswith("publisher:"):
+                publisher_term.append(term[10:])
+            elif term.startswith("*"):
                 wildcard = True
+            else:
+                title_term.append(term)
 
         if wildcard:
             search_results = Recipe.objects.all()
@@ -128,7 +152,7 @@ class SearchView(LoginRequiredMixin, View):
                     operator.and_,
                     (
                         Q(name__contains=x) | Q(description__contains=x)
-                        for x in search_term
+                        for x in title_term
                     ),
                     ~Q(pk__in=[]),
                 ),
@@ -144,6 +168,31 @@ class SearchView(LoginRequiredMixin, View):
                 reduce(
                     operator.and_,
                     (Q(added_by__username=x) for x in user_term),
+                    ~Q(pk__in=[]),
+                ),
+                reduce(
+                    operator.and_,
+                    (Q(author__contains=x) for x in author_term),
+                    ~Q(pk__in=[]),
+                ),
+                reduce(
+                    operator.and_,
+                    (Q(publisher__contains=x) for x in publisher_term),
+                    ~Q(pk__in=[]),
+                ),
+                reduce(
+                    operator.and_,
+                    (Q(total_time__gt=x) for x in time_gt_term),
+                    ~Q(pk__in=[]),
+                ),
+                reduce(
+                    operator.and_,
+                    (Q(total_time__lt=x) for x in time_lt_term),
+                    ~Q(pk__in=[]),
+                ),
+                reduce(
+                    operator.and_,
+                    (Q(total_time=x) for x in time_eq_term),
                     ~Q(pk__in=[]),
                 ),
             )
