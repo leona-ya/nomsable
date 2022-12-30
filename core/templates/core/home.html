@@ -10,7 +10,7 @@
       <div class="column column-3 column-offset-5 fontpage-list"> {{ forloop.counter }}. </div>
       <div class="column column-5 fontpage-list">
         {% if recipe.image is not None %}
-          <img src="{{ recipe.image }}" class="frontpage-image" alt="Image of {{ recipe.name }} {% if recipe.author != '' %} by {{ recipe.author }} {% endif %} served."> 
+          <img src="{{ recipe.image }}" class="frontpage-image" alt="Image of {{ recipe.name }} {% if recipe.author != '' %}by {{ recipe.author }}{% endif %} served." title="Image of {{ recipe.name }} {% if recipe.author != '' %}by {{ recipe.author }}{% endif %} served."> 
         {% endif %}
       </div>
       <div class="column column-80 fontpage-list">
