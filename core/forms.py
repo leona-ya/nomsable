@@ -9,11 +9,10 @@ class ParserInsertForm(forms.Form):
 class RecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = ['name', 'description', 'prep_time', 'cook_time', 'total_time', 'tags', 'image', 'author', 'origin_url', 'publisher', 'publisher_url']
+        fields = ['name', 'description', 'prep_time', 'cook_time', 'total_time', 'image', 'author', 'origin_url', 'publisher', 'publisher_url']
         widgets = {
             'name': forms.TextInput(attrs={'style':"line-height: 1.2; font-size: 3.2rem; margin-top: 0.46rem; height: 4.6rem;"}),
             'description': forms.Textarea(attrs={'style':"height: inherit;"}),
-            'tags': forms.TextInput(),
         }
 
 
