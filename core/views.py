@@ -1,11 +1,15 @@
 import datetime
 import json
+import operator
 import random
+import re
+from functools import reduce
 
 import isodate
 import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.db.models import Q
 from django.forms import ModelForm, formset_factory
 from django.http import Http404
 from django.shortcuts import redirect, render
@@ -97,8 +101,29 @@ class SearchView(LoginRequiredMixin, View):
             return render(
                 request, "core/search.html", {"search_form": SearchForm}
             )  # add form errors
-        search_term = query.cleaned_data["search"]
-        search_results = Recipe.objects.filter(name__contains=search_term)
+        search_term = re.split(" |,", query.cleaned_data["search"].lower())
+        ingredient_term = []
+        for idx, term in enumerate(search_term):
+            if term.startswith("ingredient:"):
+                ingredient_term.append(search_term.pop(idx)[11:])
+        print(ingredient_term)
+        search_results = Recipe.objects.filter(
+            reduce(
+                operator.and_,
+                (Q(name__contains=x) | Q(description__contains=x) for x in search_term),
+                ~Q(pk__in=[]),
+            ),
+            reduce(
+                operator.and_,
+                (
+                    Q(ingredients__ingredient__name__contains=x)
+                    | Q(ingredients__description__contains=x)
+                    for x in ingredient_term
+                ),
+                ~Q(pk__in=[]),
+            ),
+        )
+        """| Q(keywords__contains=[x])"""
         return render(
             request,
             self.template_name,
