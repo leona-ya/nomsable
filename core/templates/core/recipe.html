@@ -13,7 +13,7 @@
   {% if recipe.origin_url is not None %}</a>{% endif %}
   <div class="row">
     <div class="column column-33">
-      <h4>Ingredients</h4>
+      <h4>ingredients</h4>
       <ul>
         {% for ingredient in recipe.ingredients.all %}
           {% if ingredient.ingredient.name != "" %}
@@ -34,7 +34,7 @@
       <br><a href="{% url 'core:edit' recipe_id=recipe.id %}"><small class="recipe-edit-link">edit this recipe</small></a>
     </div>
     <div class="column">
-      <h4>Steps</h4>
+      <h4>steps</h4>
       <div class="recipe-step-column">
         <ul>
           {% for step in recipe.instructions.all %}
@@ -47,7 +47,7 @@
   <div class="row recipe-title">
     {% if recipe.description is not None %} 
       <div class="column column-66">
-        <h4>About the recipe</h4> {{ recipe.description }}
+        <h4>about the recipe</h4> {{ recipe.description }}
       </div>
     {% endif %}
     {% if recipe.description is not None %} 

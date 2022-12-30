@@ -6,7 +6,7 @@
     {% csrf_token %}
 
     <div class="row recipe-title">
-      <div class="column column-10"> <h1> Edit </h1> </div>
+      <div class="column column-10"> <h1> edit </h1> </div>
       <div class="column">
         <span class="form-error">{{ recipe_form.name.errors.0 }}</span>
         {{ recipe_form.name }}
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <h2 class="edit-title">Ingredients:</h2>
+    <h2 class="edit-title">ingredients:</h2>
 
     {{ ingredient_form.management_form }}
     {% for form in ingredient_form.forms %}
@@ -92,7 +92,7 @@
       </div>
     {% endfor %}
     
-    <h2 class="edit-title">Steps:</h2>
+    <h2 class="edit-title">steps:</h2>
 
     {{ instruction_form.management_form }}
     {% for form in instruction_form.forms %}
