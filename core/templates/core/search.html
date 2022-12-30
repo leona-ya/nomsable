@@ -3,7 +3,7 @@
 {% block body %}
 <div class="container">
     <div class="row">
-        <div class="column column-offset-5 column-90 frontpage-search">
+        <div class="column frontpage-search">
             <h2 class="frontpage-title">search</h2>
             <form method="POST" class="post-form frontpage-search">
                 {% csrf_token %}
@@ -14,13 +14,13 @@
     </div>
     {% for recipe in search_results %}
         <div class="row">
-            <div class="column column-3 column-offset-5 frontpage-list"> {{ forloop.counter }}. </div>
+            <div class="column column-3 frontpage-list"> {{ forloop.counter }}. </div>
             <div class="column column-5 frontpage-list">
                 {% if recipe.image is not None %}
                 <img src="{{ recipe.image }}" class="frontpage-image" alt="serving suggestion" title="serving suggestion">
                 {% endif %}
             </div>
-            <div class="column column-80 frontpage-list">
+            <div class="column frontpage-list">
             <a href="{% url 'core:detail' recipe_id=recipe.pk %}">
                 {{ recipe.name }}
                 <small class="recipe-sub-title">

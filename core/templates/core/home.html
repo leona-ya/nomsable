@@ -3,12 +3,12 @@
 {% block body %}
 <div class="container">
   <div class="row">
-    <div class="column column-offset-5 frontpage-title">
+    <div class="column frontpage-title">
       <h3>{{ greeting }} {{ user.name }}! {{ greeting_emoji }}</h3>
     </div>
   </div>
   <div class="row">
-    <div class="column column-offset-5 column-90 frontpage-search">
+    <div class="column frontpage-search">
       <form method="POST" action="{% url 'core:search' %}" class="post-form">
         {% csrf_token %}
         <span class="form-error">{{ search_form.search.errors.0 }}</span>
@@ -17,17 +17,17 @@
     </div>
   </div>
   <div class="row">
-  	<div class="column column-offset-5"> <h4 class="">what to cook?</h4> </div>
+  	<div class="column"> <h4 class="">what to cook?</h4> </div>
   </div>
   {% for recipe in cook_next_recipes %}
     <div class="row">
-      <div class="column column-3 column-offset-5 frontpage-list"> {{ forloop.counter }}. </div>
+      <div class="column column-3 frontpage-list"> {{ forloop.counter }}. </div>
       <div class="column column-5 frontpage-list">
         {% if recipe.image is not None %}
           <img src="{{ recipe.image }}" class="frontpage-image" alt="serving suggestion" title="serving suggestion">
         {% endif %}
       </div>
-      <div class="column column-80 frontpage-list">
+      <div class="column frontpage-list">
         <a href="{% url 'core:detail' recipe_id=recipe.pk %}">
           {{ recipe.name }}
           <small class="recipe-sub-title">
@@ -40,7 +40,7 @@
     </div>
   {% endfor %}
   <div class="row frontpage-title">
-    <div class="column column-offset-5">
+    <div class="column">
   <div class="row">
     <div class="column"> <h4 class="frontpage-title">latest recipes</h4> </div>
       </div>
