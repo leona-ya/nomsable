@@ -3,9 +3,13 @@
 {% block body %}
 <div class="container">
     <div class="row">
+        <div class="column frontpage-title">
+            <h3>search</h3>
+        </div>
+    </div>
+    <div class="row">
         <div class="column frontpage-search">
-            <h2 class="frontpage-title">search</h2>
-            <form method="POST" class="post-form frontpage-search">
+            <form method="POST" class="post-form">
                 {% csrf_token %}
                 <span class="form-error">{{ search_form.search.errors.0 }}</span>
                 {{ search_form.search }}
