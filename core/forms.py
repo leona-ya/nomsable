@@ -58,6 +58,12 @@ class IngredientForm(ModelForm):
         return 1
 
 
+class SearchForm(forms.Form):
+    search = forms.CharField(
+        label="search", widget=forms.TextInput(attrs={"placeholder": "search"})
+    )
+
+
 IngredientFormSet = modelformset_factory(
     RecipeIngredient,
     fields=("ingredient", "unit", "quantity", "description"),

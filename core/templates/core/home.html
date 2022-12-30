@@ -3,8 +3,17 @@
 {% block body %}
 <div class="container">
   <div class="row">
-    <div class="column column-offset-5 recipe-title">
-      <h4>{{ greeting }} {{ user.name }}! {{ greeting_emoji }}</h4>
+    <div class="column column-offset-5 frontpage-title">
+      <h3>{{ greeting }} {{ user.name }}! {{ greeting_emoji }}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column column-offset-5 column-90 frontpage-search">
+      <form method="POST" class="post-form">
+        {% csrf_token %}
+        <span class="form-error">{{ search_form.search.errors.0 }}</span>
+        {{ search_form.search }}
+      </form>
     </div>
   </div>
   <div class="row">
@@ -12,13 +21,13 @@
   </div>
   {% for recipe in cook_next_recipes %}
     <div class="row">
-      <div class="column column-3 column-offset-5 fontpage-list"> {{ forloop.counter }}. </div>
-      <div class="column column-5 fontpage-list">
+      <div class="column column-3 column-offset-5 frontpage-list"> {{ forloop.counter }}. </div>
+      <div class="column column-5 frontpage-list">
         {% if recipe.image is not None %}
-          <img src="{{ recipe.image }}" class="frontpage-image" alt="serving suggestion" title="serving suggestion"> 
+          <img src="{{ recipe.image }}" class="frontpage-image" alt="serving suggestion" title="serving suggestion">
         {% endif %}
       </div>
-      <div class="column column-80 fontpage-list">
+      <div class="column column-80 frontpage-list">
         <a href="{% url 'core:detail' recipe_id=recipe.pk %}">
           {{ recipe.name }}
           <small class="recipe-sub-title">
@@ -30,14 +39,14 @@
       </div>
     </div>
   {% endfor %}
-  <div class="row recipe-title">
+  <div class="row frontpage-title">
     <div class="column column-offset-5">
   <div class="row">
-    <div class="column"> <h4 class="recipe-title">latest recipes</h4> </div>
+    <div class="column"> <h4 class="frontpage-title">latest recipes</h4> </div>
       </div>
       {% for recipe in latest_recipes %}
         <div class="row">
-          <div class="column fontpage-list">
+          <div class="column frontpage-list">
             <a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a>
           </div>
         </div>
@@ -45,11 +54,11 @@
     </div>
     <div class="column">
       <div class="row">
-        <div class="column "> <h4 class="recipe-title">most cooked</h4> </div>
+        <div class="column "> <h4 class="frontpage-title">most cooked</h4> </div>
       </div>
       {% for recipe in cook_next_recipes %}
         <div class="row">
-          <div class="column fontpage-list">
+          <div class="column frontpage-list">
             <a href="{% url 'core:detail' recipe_id=recipe.pk %}">{{ recipe.name }}</a>
           </div>
         </div>

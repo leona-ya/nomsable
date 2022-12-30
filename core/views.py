@@ -20,6 +20,7 @@ from core.forms import (
     InstructionFormSet,
     ParserInsertForm,
     RecipeForm,
+    SearchForm,
 )
 from core.models import Ingredient, Recipe, RecipeIngredient, RecipeInstruction
 
@@ -35,46 +36,51 @@ class IndexView(LoginRequiredMixin, TemplateView):
             list(recipes), min(5, recipes.count())
         )
         context["greeting"] = random.choice(
-            ["welcome back",
-             "welcome",
-             "willkommen",
-             "bonjour",
-             "salut!",
-             "hey",
-             "hi",
-             "hello",
-             "howdy",
-             "mew",
-             "heyyy",
-             "hiya",
-             "kama pona",
-             "pona!"
-             "o!",
-             "greetings",
-             "你好",
-             "long-time no see",
-             "sup",
-             "good to see you",
-             "hoi",
-             "¡hola",
-             "¡hi",]
+            [
+                "welcome back",
+                "welcome",
+                "willkommen",
+                "bonjour",
+                "salut!",
+                "hey",
+                "hi",
+                "hello",
+                "howdy",
+                "mew",
+                "heyyy",
+                "hiya",
+                "kama pona",
+                "pona!" "o!",
+                "greetings",
+                "你好",
+                "long-time no see",
+                "sup",
+                "good to see you",
+                "hoi",
+                "¡hola",
+                "¡hi",
+            ]
         )
         context["greeting_emoji"] = random.choices(
-            population= ["",
-                         ":3",
-                         "=^-^=",
-                         ":3~",
-                         "⁼^⁻^⁼",
-                         "purr~",
-                        ],
-            weights=    [0.2,
-                         0.5,
-                         0.1,
-                         0.1,
-                         0.05,
-                         0.05,],
+            population=[
+                "",
+                ":3",
+                "=^-^=",
+                ":3~",
+                "⁼^⁻^⁼",
+                "purr~",
+            ],
+            weights=[
+                0.2,
+                0.5,
+                0.1,
+                0.1,
+                0.05,
+                0.05,
+            ],
             k=1,
-            )[0]
+        )[0]
+        context["search_form"] = SearchForm()
         context["latest_recipes"] = Recipe.objects.all().order_by("-date_created")[:5]
         return context
 
@@ -113,12 +119,15 @@ def parse_ingredient(unit_registry, recipe, raw_ingredient):
         ingredient_obj = Ingredient(name=ingredient)
         ingredient_obj.save()
 
-    unit=None
+    unit = None
     try:
-        unit=unit_registry.get_symbol(str(quantity.u)) if hasattr(quantity, "u") else None
+        unit = (
+            unit_registry.get_symbol(str(quantity.u))
+            if hasattr(quantity, "u")
+            else None
+        )
     except:
         pass
-
 
     return RecipeIngredient(
         recipe_id=recipe.id,
@@ -182,6 +191,7 @@ class ParserInsertView(LoginRequiredMixin, View):
         ]
         RecipeInstruction.objects.bulk_create(instructions)
         return redirect("core:edit", recipe_id=recipe.id)
+
 
 class RecipeView(TemplateView):
     template_name = "core/recipe.html"
