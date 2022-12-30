@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="column column-offset-5 column-90 frontpage-search">
-      <form method="POST" class="post-form">
+      <form method="POST" action="{% url 'core:search' %}" class="post-form">
         {% csrf_token %}
         <span class="form-error">{{ search_form.search.errors.0 }}</span>
         {{ search_form.search }}

@@ -26,7 +26,6 @@ from core.models import Ingredient, Recipe, RecipeIngredient, RecipeInstruction
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
-
     template_name = "core/home.html"
 
     def get_context_data(self, **kwargs):
@@ -50,7 +49,8 @@ class IndexView(LoginRequiredMixin, TemplateView):
                 "heyyy",
                 "hiya",
                 "kama pona",
-                "pona!" "o!",
+                "pona!",
+                "o!",
                 "greetings",
                 "你好",
                 "long-time no see",
@@ -83,6 +83,17 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context["search_form"] = SearchForm()
         context["latest_recipes"] = Recipe.objects.all().order_by("-date_created")[:5]
         return context
+
+
+class SearchView(LoginRequiredMixin, View):
+    template_name = "core/search.html"
+
+    def get(self, request):
+        return render(request, self.template_name, {"search_form": SearchForm})
+
+    def post(self, request):
+        query = SearchForm(request.POST)
+        return render(request, self.template_name, {"search_form": query})
 
 
 def parse_iso8601_duration(iso_duration):
