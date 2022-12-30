@@ -4,21 +4,115 @@
 <div class="container">
   <form method="POST" class="post-form">
     {% csrf_token %}
-    {{ recipe_form.as_p }}
-    
+
+    <div class="row">
+      <div class="column column-10"> <h1> Edit </h1> </div>
+      <div class="column">
+        <span class="form-error">{{ recipe_form.name.errors.0 }}</span>
+        {{ recipe_form.name }}
+      </div>
+    </div>
+
+    <span class="form-error">{{ recipe_form.description.errors.0 }}</span>
+    {{ recipe_form.description.label_tag }} {{ recipe_form.description }}
+    <span class="form-error">{{ recipe_form.image.errors.0 }}</span>
+    {{ recipe_form.image.label_tag }} {{ recipe_form.image }}
+
+    <div class="row">
+      <div class="column">
+        <span class="form-error">{{ recipe_form.author.errors.0 }}</span>
+        {{ recipe_form.author.label_tag }} {{ recipe_form.author }}
+      </div>
+      <div class="column">
+        <span class="form-error">{{ recipe_form.origin_url.errors.0 }}</span>
+        {{ recipe_form.origin_url.label_tag }} {{ recipe_form.origin_url }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <span class="form-error">{{ recipe_form.publisher.errors.0 }}</span>
+        {{ recipe_form.publisher.label_tag }} {{ recipe_form.publisher }}
+      </div>
+      <div class="column">
+        <span class="form-error">{{ recipe_form.publisher_url.errors.0 }}</span>
+        {{ recipe_form.publisher_url.label_tag }} {{ recipe_form.publisher_url }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <span class="form-error">{{ recipe_form.prep_time.errors.0 }}</span>
+        {{ recipe_form.prep_time.label_tag }} {{ recipe_form.prep_time }}
+      </div>
+      <div class="column">
+        <span class="form-error">{{ recipe_form.cook_time.errors.0 }}</span>
+        {{ recipe_form.cook_time.label_tag }} {{ recipe_form.cook_time }}
+      </div>
+      <div class="column"> 
+        <span class="form-error">{{ recipe_form.total_time.errors.0 }}</span>
+        {{ recipe_form.total_time.label_tag }} {{ recipe_form.total_time }}
+      </div>
+    </div>
+
+    {{ recipe_form.tags.label_tag }} {{ recipe_form.tags }}
+
+    <h2>Ingredients:</h2>
+
     {{ ingredient_form.management_form }}
     {% for form in ingredient_form.forms %}
+      {{ form.id }}
+      {% if forloop.first %} 
+        <div class="row">
+            <div class="column column-10"> {{ form.quantity.label_tag }} </div>
+            <div class="column column-10"> {{ form.unit.label_tag }} </div>
+            <div class="column"> {{ form.ingredient.label_tag }} </div>
+            <div class="column"> {{ form.description.label_tag }} </div>
+        </div>
+      {% endif %}
       <div class="row">
-        {{ form.as_p }}
+        <div class="column column-10">
+          <span class="form-error">{{ form.quantity.errors.0 }}</span>
+          {{ form.quantity }} 
+        </div>
+        <div class="column column-10">
+          <span class="form-error">{{ form.unit.errors.0 }}</span>
+          {{ form.unit }} 
+        </div>
+        <div class="column">
+          <span class="form-error">{{ form.ingredient.errors.0 }}</span>
+          {{ form.ingredient }} 
+        </div>
+        <div class="column">
+          <span class="form-error">{{ form.description.errors.0 }}</span>
+          {{ form.description }} 
+        </div>
       </div>
     {% endfor %}
     
+    <h2>Steps:</h2>
+
     {{ instruction_form.management_form }}
     {% for form in instruction_form.forms %}
+      {{ form.id }}
+      {% if forloop.first %}
+        <div class="row">
+          <div class="column column-10"> {{ form.step_no.label_tag }} </div>
+          <div class="column"> {{ form.text.label_tag }} </div>
+        </div>
+      {% endif %}
       <div class="row">
-        {{ form.as_p }}
+        <div class="column column-10">
+        <span class="form-error">{{ form.step_no.errors.0 }}</span>
+        {{ form.step_no }}
+      </div>
+        <div class="column">
+          <span class="form-error">{{ form.text.errors.0 }}</span>
+          {{ form.text }}
+        </div>
       </div>
     {% endfor %}
+
     <button type="submit" class="save btn btn-default">Save</button>
   </form>
 </div>

@@ -223,3 +223,8 @@ table tbody td {border: none;}
     position: relative;
     vertical-align: middle;
 }
+
+/* edit */
+.form-error {
+    color: red;
+}
