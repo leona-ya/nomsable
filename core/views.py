@@ -207,7 +207,7 @@ class SearchView(LoginRequiredMixin, View):
 def parse_iso8601_duration(iso_duration):
     if iso_duration is not None:
         maybe_timedelta = isodate.parse_duration(iso_duration)
-        if isinstance(maybe_timedelta, datetime.timedelta):
+        if isinstance(maybe_timedelta, timedelta):
             iso_duration = maybe_timedelta
     return iso_duration
 
