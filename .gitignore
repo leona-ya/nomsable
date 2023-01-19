@@ -136,3 +136,8 @@ cython_debug/
 
 # Custom
 static/CACHE
+
+# Deployment / Build
+nomsable.cfg
+.envrc
+.direnv
