@@ -21,8 +21,7 @@ config.read_file(
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 if config.has_option("general", "secret_key"):
     secret_key = config.get("general", "secret_key")
@@ -65,7 +64,7 @@ ROOT_URLCONF = "nomsable.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["nomsable/templates/"],
+        "DIRS": [BASE_DIR + "/nomsable/templates/"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -115,7 +114,7 @@ LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = config.get("general", "time_zone", fallback="UTC")
 
-USE_I18N = True
+USE_I18N = False
 
 USE_TZ = True
 
