@@ -16,17 +16,20 @@ from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 
 config = configparser.RawConfigParser()
-config.read_file(open("nomsable.cfg", encoding="utf-8"))
+config.read_file(
+    open(os.environ.get("NOMSABLE_CONFIG_FILE", "nomsable.cfg"), encoding="utf-8")
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+if config.has_option("general", "secret_key"):
+    secret_key = config.get("general", "secret_key")
+else:
+    secret_key = os.environ.get("NOMSABLE_SECRET_KEY", get_random_secret_key())
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.get("general", "secret_key", fallback=get_random_secret_key())
+SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config.getboolean("general", "debug", fallback=False)
