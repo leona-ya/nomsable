@@ -118,19 +118,21 @@ USE_I18N = False
 
 USE_TZ = True
 
-STATIC_URL = "static/"
-
-STATIC_ROOT = config.get(
-    "general", "static_root", fallback=os.path.join(BASE_DIR, "static")
-)
-
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+STATIC_ROOT = config.get("general", "static_root", fallback=None)
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     "compressor.finders.CompressorFinder",
 ]
 
-COMPRESS_PRECOMPILERS = (("text/x-sass", "django_libsass.SassCompiler"),)
+COMPRESS_PRECOMPILERS = [("text/x-sass", "django_libsass.SassCompiler")]
+COMPRESS_ROOT = config.get(
+    "general", "static_root", fallback=os.path.join(BASE_DIR, "static")
+)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
