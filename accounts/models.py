@@ -7,13 +7,10 @@ from django.db import models
 
 
 class User(AbstractBaseUser):
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'name']
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email", "name"]
 
-    username = models.CharField(
-        unique=True,
-        max_length=255
-    )
+    username = models.CharField(unique=True, max_length=255)
     email = models.EmailField(
         unique=True,
         max_length=255,
@@ -49,9 +46,13 @@ class User(AbstractBaseUser):
         return "<User username={}>".format(self.username)
 
 
+def invite_code_default_expiry():
+    return datetime.datetime.now() + datetime.timedelta(days=7)
+
+
 class InviteCode(models.Model):
     code = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    expires = models.DateTimeField(default=(datetime.datetime.now() + datetime.timedelta(days=7)))
+    expires = models.DateTimeField(default=invite_code_default_expiry)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     @classmethod
@@ -61,3 +62,11 @@ class InviteCode(models.Model):
             return True
         except cls.DoesNotExist:
             return False
+
+
+class UserPreferences(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True, related_name="preferences"
+    )
+    hidden_recipe_tags = models.ManyToManyField("core.Tag")
+    hidden_recipe_ingredients = models.ManyToManyField("core.Ingredient")

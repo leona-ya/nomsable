@@ -7,7 +7,7 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
-        return "<Ingredient name=\"{}\">".format(self.name)
+        return '<Ingredient name="{}">'.format(self.name)
 
 
 class Tag(models.Model):
@@ -25,7 +25,9 @@ class Recipe(models.Model):
     total_time = models.DurationField(blank=True, null=True)
     # nutrition = models.JSONField
     author = models.CharField(max_length=255)
-    keywords = models.JSONField(default=list, blank=True)  # from schema.org / just for search
+    keywords = models.JSONField(
+        default=list, blank=True
+    )  # from schema.org / just for search
     publisher = models.CharField(max_length=255)
     publisher_url = models.URLField(blank=True, null=True)
     origin_url = models.URLField(blank=True, null=True)
@@ -36,9 +38,20 @@ class Recipe(models.Model):
     date_edited = models.DateTimeField(auto_now=True)
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
+    @classmethod
+    def get_all_filtered(cls, user):
+        return cls.objects.filter(
+            ~models.Q(tags__in=user.preferences.hidden_recipe_tags.all()),
+            ~models.Q(
+                ingredients__ingredient__in=user.preferences.hidden_recipe_ingredients.all()
+            ),
+        )
+
 
 class RecipeIngredient(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="ingredients")
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.CASCADE, related_name="ingredients"
+    )
     ingredient = models.ForeignKey(Ingredient, on_delete=models.PROTECT)
     unit = models.CharField(max_length=100, null=True, blank=True)
     quantity = models.FloatField(null=True, blank=True)
@@ -47,14 +60,16 @@ class RecipeIngredient(models.Model):
 
 class RecipeInstruction(models.Model):
     class Meta:
-        ordering = ['step_no']
+        ordering = ["step_no"]
         constraints = [
             models.UniqueConstraint(
-                fields=['recipe', 'step_no'], name='unique_recipe_step_nos'
+                fields=["recipe", "step_no"], name="unique_recipe_step_nos"
             )
         ]
 
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="instructions")
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.CASCADE, related_name="instructions"
+    )
     step_no = models.IntegerField()
     text = models.TextField()
     # ingredients = models.ManyToManyField(RecipeIngredient)

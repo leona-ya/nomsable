@@ -11,5 +11,14 @@ urlpatterns = [
         preferences.PreferencesIndexView.as_view(),
         name="preferences_index",
     ),
-    path("preferences/create_invite_code", preferences.CreateInviteCodeView.as_view(), name="preferences_create_invite_code")
+    path(
+        "preferences/create_invite_code",
+        preferences.CreateInviteCodeView.as_view(),
+        name="preferences_create_invite_code",
+    ),
+    path(
+        "preferences/hide_recipes",
+        preferences.PreferencesHideRecipesView.as_view(),
+        name="preferences_hide_recipes",
+    ),
 ]

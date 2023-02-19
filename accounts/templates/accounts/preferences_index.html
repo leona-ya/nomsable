@@ -1,11 +1,16 @@
 {% extends "base_with_navbar.html" %}
 {% block body %}
 <div class="container">
-    <h2>Preferences</h2>
-    <!--tbd-->
-    <h3>Admin</h3>
+    <h2>preferences</h2>
+    <h3>hide recipes</h3>
+    <form method="post" action="{% url 'accounts:preferences_hide_recipes' %}">
+      {% csrf_token %}
+      {{ recipe_filter_form }}
+      <button type="submit" class="button btn btn-default">Save</button>
+    </form>
+    <h3>admin</h3>
     <!--<h4>Users</h4>-->
-    <h4>Invite Codes</h4>
+    <h4>invite codes</h4>
     Every invite code is valid for 7 days and for max. 1 use.
     <br>
     <a href="{% url 'accounts:preferences_create_invite_code' %}" class="button btn btn-default edit-title">Create invite code</a>

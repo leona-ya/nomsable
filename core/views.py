@@ -33,7 +33,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        recipes = Recipe.objects.all()
+        recipes = Recipe.get_all_filtered(self.request.user)
         context["cook_next_recipes"] = random.sample(
             list(recipes), min(5, recipes.count())
         )
@@ -88,7 +88,9 @@ class IndexView(LoginRequiredMixin, TemplateView):
             k=1,
         )[0]
         context["search_form"] = SearchForm()
-        context["latest_recipes"] = Recipe.objects.all().order_by("-date_created")[:5]
+        context["latest_recipes"] = Recipe.get_all_filtered(self.request.user).order_by(
+            "-date_created"
+        )[:5]
         return context
 
 
