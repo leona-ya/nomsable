@@ -86,7 +86,6 @@
       {% if forloop.first %}
         <div class="row">
             <div class="column column-10"> {{ form.quantity.label_tag }} </div>
-            <div class="column column-10"> {{ form.unit.label_tag }} </div>
             <div class="column"> {{ form.ingredient.label_tag }} </div>
             <div class="column"> {{ form.description.label_tag }} </div>
             <div class="column column-10"> {{ form.DELETE.label_tag }} </div>
@@ -96,10 +95,6 @@
         <div class="column column-10">
           <span class="form-error">{{ form.quantity.errors.0 }}</span>
           {{ form.quantity }}
-        </div>
-        <div class="column column-10">
-          <span class="form-error">{{ form.unit.errors.0 }}</span>
-          {{ form.unit }}
         </div>
         <div class="column">
           <span class="form-error">{{ form.ingredient.errors.0 }}</span>

@@ -68,7 +68,7 @@ class SearchForm(forms.Form):
 
 IngredientFormSet = modelformset_factory(
     RecipeIngredient,
-    fields=("ingredient", "unit", "quantity", "description"),
+    fields=("ingredient", "quantity", "description"),
     form=IngredientForm,
     widgets={
         "quantity": forms.TextInput(),

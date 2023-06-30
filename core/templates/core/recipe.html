@@ -19,7 +19,6 @@
           {% if ingredient.ingredient.name != "" %}
             <li class="ingredient-list">
               {% if ingredient.quantity is not None %} {{ ingredient.quantity }} {% endif %}
-              {% if ingredient.unit is not None %} {{ ingredient.unit }} {% endif %}
               {{ ingredient.ingredient.name }}
               <small class="ingredient-description"> {% if ingredient.description is not None %} {{ ingredient.description }} {% endif %}</small>
             </li>

@@ -14,7 +14,6 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import TemplateView
-from pint import UnitRegistry
 
 from accounts.helper import LoginRequiredMixin
 from core.forms import (
@@ -214,51 +213,6 @@ def parse_iso8601_duration(iso_duration):
     return iso_duration
 
 
-def parse_ingredient(unit_registry, recipe, raw_ingredient):
-    ingredient_parts = raw_ingredient.split(" ")
-    quantity = None
-    last_parseable_idx = 0
-    for idx, _ in enumerate(ingredient_parts, start=1):
-        try:
-            quantity = unit_registry(" ".join(ingredient_parts[:idx]))
-        except:
-            break
-        last_parseable_idx = idx
-
-    ingredient_part_str = " ".join(ingredient_parts[(last_parseable_idx + 1) :])
-    comma_position = ingredient_part_str.find(",")
-    if comma_position > 0:
-        ingredient = ingredient_part_str[:comma_position]
-        description = ingredient_part_str[comma_position + 1 :]
-    else:
-        ingredient = ingredient_part_str
-        description = None
-
-    try:
-        ingredient_obj = Ingredient.objects.get(name=ingredient)
-    except Ingredient.DoesNotExist:
-        ingredient_obj = Ingredient(name=ingredient)
-        ingredient_obj.save()
-
-    unit = None
-    try:
-        unit = (
-            unit_registry.get_symbol(str(quantity.u))
-            if hasattr(quantity, "u")
-            else None
-        )
-    except:
-        pass
-
-    return RecipeIngredient(
-        recipe_id=recipe.id,
-        ingredient_id=ingredient_obj.id,
-        unit=unit,
-        quantity=quantity.m if hasattr(quantity, "m") else None,
-        description=description,
-    )
-
-
 class ParserInsertView(LoginRequiredMixin, View):
     template_name = "core/new.html"
 
@@ -281,7 +235,9 @@ class ParserInsertView(LoginRequiredMixin, View):
         recipe = Recipe(
             name=ld_json["name"],
             description=ld_json["description"],
-            image=ld_json.get("image"),
+            image=ld_json.get("image")
+            if type(ld_json.get("image")) != list
+            else ld_json["image"][-1],
             prep_time=parse_iso8601_duration(ld_json.get("prepTime")),
             cook_time=parse_iso8601_duration(ld_json.get("cookTime")),
             total_time=parse_iso8601_duration(ld_json.get("totalTime")),
@@ -295,9 +251,19 @@ class ParserInsertView(LoginRequiredMixin, View):
             added_by=self.request.user,
         )
         recipe.save()
-        unit_registry = UnitRegistry()
+
+        try:
+            ingredient_fill_in_obj = Ingredient.objects.get(name="(fill in)")
+        except Ingredient.DoesNotExist:
+            ingredient_fill_in_obj = Ingredient(name="(fill in)")
+            ingredient_fill_in_obj.save()
         ingredients = [
-            parse_ingredient(unit_registry, recipe, raw_ingredient)
+            RecipeIngredient(
+                recipe=recipe,
+                ingredient=ingredient_fill_in_obj,
+                quantity=None,
+                description=raw_ingredient,
+            )
             for raw_ingredient in ld_json["recipeIngredient"]
         ]
         RecipeIngredient.objects.bulk_create(ingredients)

@@ -53,7 +53,6 @@ class RecipeIngredient(models.Model):
         Recipe, on_delete=models.CASCADE, related_name="ingredients"
     )
     ingredient = models.ForeignKey(Ingredient, on_delete=models.PROTECT)
-    unit = models.CharField(max_length=100, null=True, blank=True)
     quantity = models.FloatField(null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
 
