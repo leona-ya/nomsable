@@ -31,7 +31,10 @@
         {% if recipe.cook_time is not None %} <div class="column"><small>Cook time<br> {{ recipe.cook_time|serve_duration }}</small></div> {% endif %}
         {% if recipe.total_time is not None %} <div class="column"><small>Total time<br> {{ recipe.total_time|serve_duration }}</small></div> {% endif %}
       </div>
-      <br><a href="{% url 'core:edit' recipe_id=recipe.id %}"><small class="recipe-edit-link">edit this recipe</small></a>
+      <br>
+      <a href="{% url 'core:edit' recipe_id=recipe.id %}"><small class="recipe-edit-link">edit this recipe</small></a>
+      <br>
+      <a href="{% url 'core:delete' recipe_id=recipe.id %}"><small class="recipe-delete-link">delete this recipe</small></a>
     </div>
     <div class="column">
       <h4>steps</h4>
@@ -45,14 +48,14 @@
     </div>
   </div>
   <div class="row recipe-title">
-    {% if recipe.description is not None %} 
+    {% if recipe.description is not None %}
       <div class="column column-66">
         <h4>about the recipe</h4> {{ recipe.description }}
       </div>
     {% endif %}
-    {% if recipe.description is not None %} 
+    {% if recipe.description is not None %}
       <div class="column">
-        <img src="{{ recipe.image }}" alt="serving suggestion" title="serving suggestion"> 
+        <img src="{{ recipe.image }}" alt="serving suggestion" title="serving suggestion">
       </div>
     {% endif %}
   </div>

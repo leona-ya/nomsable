@@ -174,7 +174,7 @@ table tbody td {border: none;}
     margin-bottom: 3.5rem;
 }
 
-.recipe-edit-link {
+.recipe-edit-link, .recipe-delete-link {
     margin-top: 5.5rem 0;
 }
 

@@ -391,6 +391,13 @@ class EditView(View):
         )
 
 
+class DeleteView(View):
+    def get(self, request, recipe_id):
+        recipe = Recipe.objects.get(pk=recipe_id)
+        recipe.delete()
+        return redirect("core:index")
+
+
 def error_404_view(request, exception):
     return render(request, "core/404.html")
 
